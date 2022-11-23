@@ -102,6 +102,10 @@ Recently, there has been growing interest in the detection of repeating spike pa
 \hrule
 %---------------------------
 \textbf{Additional Details.}%
+
+
+Current technological advances allow simultaneous recording of large numbers of neurons, driving the development of efficient methods for detecting structured patterns in raster plots~\parencite{russo_cell_2017, stella_3d-spade_2019}. Here, we attempt to extend these methods by explicitly representing spike motifs as a temporal pattern of activation of different units. In this way, we can parameterize each motif by the set of tuples that define the weight and delay of each element of the motif. 
+
 %
 \begin{figure}[h!]%wrapfigure}{}{\textwidth}
   % \subfloat[M]{%ulti-unit raster]{
@@ -130,17 +134,29 @@ Recently, there has been growing interest in the detection of repeating spike pa
 %
 % * Limit : not online - in the future it is a model of a neuron
 %
-Current technological advances allow for the simultaneous recording of a large number of neurons, paving the way for the development of efficient methods for the detection of structured patterns in raster plots~\parencite{russo_cell_2017, stella_3d-spade_2019}. Here, we attempt to extend these methods by explicitly representing spike motifs as a temporal pattern of activation of different units. In this way, we can parameterize each motif by the set of tuples that define the weight and the delay of each element of the motif. By discretizing time (here with an arbitrary time unit $1~\ms$), we can also define the motifs as a matrix giving the weight corresponding to different delays $d \in [0, D]$ (where $D$ is the maximum delay) at different addresses $a \in [1, N]$ defining the list of $N$ neurons from the multiunit recording. We denote these weights as $W(a, d)$. When a given motif is activated, it will produce a discharge pattern corresponding to that specific set of delays and addresses. Assuming that we know that there are $M$ such motifs, we define $b \in [1, M]$ the address of a motif and $W_b$ the corresponding weight matrices. This allows us to derive a generative model for raster plots (see figure~\ref{fig:1}).
+
+By discretizing time (here with an arbitrary time unit $1~\ms$), we can also define the motifs as a matrix giving the weight with respect to the different delays $d \in [0, D]$ (where $D$ is the maximum delay) at different addresses $a \in [1, N]$ where $N$ is the number of neurons from the multiunit recording. 
+When a given motif is activated, it will produce a discharge pattern corresponding to that specific set of delays and addresses. 
+Let's define the probability of firing of a neuron $a$ at a given time $t$ as a Bernoulli trial whose (only) parameter is a bias $p(t, a) \in [0, 1]$. For any given probability $p$ it is convenient to define the corresponding \emph{evidence} which corresponds to the log odds $\log \frac{p}{1-p} = \sigma^{-1}(p)$, where $\sigma$ is the sigmoid function. 
+Assuming that the presence of spiking motifs is binary, it is easy to show that the total evidence can be written as the sum of these evidences, whose values are given by the corresponding weights.
+Assuming that we know that there are $M$ such motifs, we define $b \in [1, M]$ the address of a motif and $W_b$ the corresponding weight matrices. This allows us to derive a generative model for raster plots (see figure~\ref{fig:1}).
+ Spiking motifs may be activated independently at random times and we write that $B(b, t)=1$ if $b$ is activated at $t$ (and otherwise $B(b, t)=0$). We can thus write the probability bias as %the joint probability given these factors as 
+$%$
+p(t, a) = \sigma\big(W_0 + \sum_{b, t} B(b, t) \cdot W_b(a, t-d) \big)  
+$. We will further assume that the weights are balanced (their mean is zero) and that $W_0$ is a bias such that $p_0=\sigma(W_0)$ is the average background firing rate. Conveniently, this summation can be written as a one-dimensional temporal convolution operator, so we can simply write $p = \sigma(W_0 + B \ast W )$ where  $p\in [ 0, 1]^{N\times T}$ and $B\in \{0, 1\}^{M\times T}$ is the raster plot corresponding to the temporal activation of the spiking motifs. Finally, we obtain the raster plot $A\in \{0, 1\}^{N\times T}$ by drawing spikes using independent Bernoulli trials $A \sim \mathcal{B}(p)$. Note that, depending on the shape of the kernels, the generative model can model a Poisson process, generate rhythmic activity or more generally propagating waves. This formulation thus defines a simple generative model for raster plots as a combination of independent spiking motifs. 
+
+\vspace{25pt}
 
 %---------------------------
-\begin{wrapfigure}{r}{.300\textwidth}
-\vspace{-15pt}
+\begin{wrapfigure}{r}{.350\textwidth}
+% \vspace{-15pt}
+%
 % ❯ git add figure_N_PG_time.pdf figure_N_PGs.pdf figure_N_pre.pdf
 %\subfloat[]{
 \includegraphics[width=\linewidth]{figure_N_PGs.pdf}
 %}%
 %\subfloat[]{\includegraphics[width=.49\linewidth]{Figures/fig_methods_nat.pdf}}%
-% \vspace{-25pt}
+\vspace{-25pt}
 {
 \caption{Accuracy of detection as a function of the number $M$ of superposed motifs.
 }
@@ -149,26 +165,20 @@ Current technological advances allow for the simultaneous recording of a large n
 % \vspace{-10pt}
 \end{wrapfigure}
 %---------------------------
-Indeed, the probability of firing of a neuron $a$ at a given time $t$ can be understood as a Bernoulli trial whose (only) parameter is a bias $p(t, a) \in [0, 1]$. Assuming that the presence of spiking motifs is conditionally independent, this bias can be written as the combination of these factors, whose values are given by the corresponding weights. spiking motifs may be activated independently at random times and  we write that $B(b, t)=1$ if $b$ is activated at $t$ (and else $B(b, t)=0$). We can thus write the probability bias as %the joint probability given these factors as 
-$%$
-p(t, a) = \sigma\big(W_0 + \sum_{b, t} B(b, t) \cdot W_b(a, t-d) \big)  
-$, %$
-where $\sigma$ is the sigmoid function. We will further assume that the weights are balanced (their mean is zero) and that $W_0$ is a bias such that $p_0=\sigma(W_0)$ is the average background firing rate. Conveniently, one can write this summation as a one-dimensional temporal convolution operator such that we may simply write $p = \sigma(W_0 + B \ast W )$ where  $p\in [ 0, 1]^{N\times T}$ and $B\in \{0, 1\}^{M\times T}$ is the raster plot corresponding to the temporal activation of the spiking motifs. Finally, we obtain the raster plot $A\in \{0, 1\}^{N\times T}$ by drawing spikes using independent Bernoulli trials $A \sim \mathcal{B}(p)$. Note that, depending on the shape of the kernels, the generative model can model a Poisson process, generate rhythmic activity or more generally propagating waves. This formulation thus defines a simple generative model for raster plots as a combination of independent spiking motifs. 
-
 This generative model allows to define an inference model for guessing sources $B$ when observing a raster plot $A$. This assumes that we know the spiking motifs as defined by the $W_b$ matrices. The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider spiking motifs with similar decreasing exponential time profile, we can prove that this is similar to finding the tuning function of L-NL neurons, as used in the method of~\parencite{berens_fast_2012}. In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. Using this forward model, it possible to estimate the logit (inverse of a sigmoid) $\hat{B}(b, t)$ for the presence of a motif of address $b$ and at time $t$ by using the transpose convolution operator. It thus comes that when observing $A$, then one may infer $\hat{B} = A \ast W^T$ and select the most activated items. To quantify the efficiency of this operation, we generated $M=55$ synthetic spiking motifs as random independent kernels over $128$ presynaptic inputs and $D=127$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and with on average $2.0$ occurrences each. This allowed us to generate raster plots which we use to infer $\hat{B}$. We compute the accuracy as the rate of true positive detections and observe on average $\approx 98\%$ correct spiking motifs both for the address and %(exact) 
 timing.
 
 %---------------------------
-\begin{wrapfigure}{r}{.275\textwidth}
+\begin{wrapfigure}{r}{.350\textwidth}
 \vspace{-10pt}
 % ❯ git add figure_N_PG_time.pdf figure_N_PGs.pdf figure_N_pre.pdf
 %\subfloat[]{
 \includegraphics[width=\linewidth]{figure_N_PG_time.pdf}
 %}%
 %\subfloat[]{\includegraphics[width=.49\linewidth]{Figures/fig_methods_nat.pdf}}%
-% \vspace{-25pt}
+\vspace{-25pt}
 {
-\caption{Accuracy of detection as a function of the temporal depth $D$ of spiking motifs.
+\caption{Accuracy of detection as a function of the temporal depth $D$ of motifs.
 }
 \label{fig:3}
 }
