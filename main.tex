@@ -14,66 +14,6 @@
 \usepackage{multicol}
 \usepackage{amsmath}
 
-\newcommand{\presynaddr}{a} % pre address
-\newcommand{\postsynaddr}{n} % post address
-\newcommand{\numevent}{N_{ev}} % total number of events
-\newcommand{\presynaddrspace}{\mathcal{A}} %presynaptic address space
-\newcommand{\postsynaddrspace}{\mathcal{B}} %postsynaptic address space
-\newcommand{\Npol}{N_\text{p}} % number of polarity
-\newcommand{\Nneuron}{N_\text{n}} % number of output neurons in the layer
-\newcommand{\arank}{r} % address index
-
-\newcommand{\bias}{b} % bias for the MLR model
-\newcommand{\synapse}{\sigma} % synapse
-\newcommand{\synapticweight}{w} % synaptic weight
-\newcommand{\synapticdelay}{\delta} % synaptic delay
-\newcommand{\ranksyn}{s} % synapse index
-\newcommand{\Nsyn}{N_{s}} % total number of synapses
-\newcommand{\activeweights}{\mathcal{W}} 
-\newcommand{\timev}{t} % time
-\newcommand{\polev}{p} % polarity
-\newcommand{\event}{\epsilon} % event
-\newcommand{\eventstream}{\xi} % stream of events
-\newcommand{\TS}{S} % time surface
-\newcommand{\neuron}{\mathbf{n}} % neuron in the SNN (defined by the spatial position and the channel)
-\newcommand{\postneuron}{\mathbf{m}} % post synaptic neuron in the SNN (defined by the spatial position and the kernel)
-\newcommand{\channel}{\mathbf{p}} % channel
-\newcommand{\layer}{\mathbf{L}} % layer
-\newcommand{\ms}{\si{\milli\second}}%
-\newcommand{\us}{\si{\micro\second}}%
-\newcommand{\timecontext}{T} % time context (cf HOTS) matrice gathering last event times
-\newcommand{\current}{I} % post synaptic current
-\newcommand{\volt}{u} % membrane potential
-\newcommand{\mempot}{V} % membrane potential
-\newcommand{\restpot}{V_{rest}} % resting membrane potential
-\newcommand{\threspot}{V_\theta} % membrane potential threshold
-\newcommand{\gain}{\gamma} % homeostatic gain
-\newcommand{\simil}{\beta} % similarity value
-\newcommand{\Nclass}{N_\text{class}} % number of classes for MLR:
-\newcommand{\Nx}{N_\text{X}}
-\newcommand{\Ny}{N_\text{Y}}
-\newcommand{\Ntime}{N_\text{t}}
-\newcommand{\kernel}{K} % convolution kernel
-%\newcommand{\kernelind}{\mathbf{k}} % indice of the kernel
-\newcommand{\kernelind}{k} % indice of the kernel
-\newcommand{\Kx}{K_\text{x}}
-\newcommand{\Ky}{K_\text{y}}
-\newcommand{\Ktime}{K_\text{t}}
-\newcommand{\classiflayer}{\mathbf{C}}
-\newcommand{\class}{c} % class k of the MLR
-\newcommand{\lrweights}{\theta} % matrix of MLR weights
-\newcommand{\lrtrue}{y} % true value of the prediction for MLR
-\newcommand{\loss}{\mathcal{L}} % cost function for MLR
-\newcommand{\softmax}{\sigma}
-\newcommand{\firerank}{f}
-\newcommand{\decision}{\hat{y}}
-\newcommand{\speed}{v}
-\newcommand{\Nspeed}{N_v}
-\newcommand{\colorsec}{red}
-\newcommand{\colorsubsec}{gray}
-\newcommand{\learningrate}{\mu}
-
-
 
 \oddsidemargin -0.5in		% margin, in addition to 1" standard
 \textwidth 7.5in		% 8.5" - 2*(1+\oddsidemargin)
@@ -141,9 +81,9 @@ sortcites=false,
 \begin{document}
 
 %%%-----------------------------------------------------------------
-{\Large\bf %Unsupervised learning of precise spiking motifs with a heterogeneous synaptic delays neuron model
-Unsupervised learning of a precise spiking motif using a STDP on weights and delays
-}\\
+{\Large\bf 
+Automatic detection of spiking motifs in multi-unit raster plots
+}
 
 %{\bf
 %Anonymous submission for double-blind review. \\
@@ -152,80 +92,108 @@ Unsupervised learning of a precise spiking motif using a STDP on weights and del
 %%SUMMARY
 %%%-----------------------------------------------------------------
 \textbf{Summary} %}
-The spiking response of a biological neuron depends on the precise timing of afferent spikes and this temporal aspect of the neuronal code is essential in understanding information processing in neurobiology. In particular, it was shown that introducing heterogeneous synaptic delays in spiking neuron models allows them to become selective to precise spiking motifs. Indeed, the variety of synaptic delays on the dendritic tree allows synchronizing synaptic inputs as they converge on the soma of the neuron. In this study, we propose a bio-plausible unsupervised learning rule on both weights and delays through the derivation of a loss function which depends on the membrane potential of the spiking neuron. These models can learn spiking motifs only with supervised Spike-Timing Dependent Plasticity (STDP) rules based on the desired output spike. This gradient-based approach maximizes the membrane potential of the neuron at the timing of the output spike. We add a regularization term to the loss function, formalizing a homeostatic mechanism on the spiking activity of neurons: Their gain can be increased or decreased according to a target firing rate, with no supervision on the output spike time. We demonstrate, on synthetic data, that such spiking neuron is able to learn a precise spatio-temporal motif embedded in the spike train. This original and simple learning rule can be applied to a layer of neurons with a winner-take all mechanism in order to learn multiple spiking motifs. We aim at generalizing this detection to neurobiological data. %Results show a large improvement in performances when adding temporal delays for computations and a great increase in robustness to noise.
+There has been a recent surge of interest for the detection of reoccurring spike patterns in multi-unit raster plots [Russo 2017, Stella 2019]. In this study, we introduce an extension of such detection models by introducing a generative model for the synthesis of raster plots. We deduce from this model an optimal detection method. This takes the form of a logistic regression coupled to a temporal convolution. We evaluate the capacity of this model to detect spiking motifs in synthetic data. This demonstrates in particular the high capacity of such code in separating spiking motif. finally, as this model is differentiable, we derive an automatic unsupervised learning method, as a gradient descent on lake loss function of a model that word decode and re-encode the roster plot using spike motifs. Such unsupervised learning is able to retrieve the synthetically generated spike motifs and we envision to use these on neurobiological data.
 \vspace{.5cm}
 \hrule
 %---------------------------
-
-\begin{wrapfigure}{R}{.7\textwidth}
-\vspace{-15pt}
-\includegraphics[width=0.99\linewidth]{heterogeneous_neuron.pdf}
-\vspace{-25pt}
-\end{wrapfigure}
-
-%---------------------------
 \textbf{Additional Details.}%
+%
+
+%\vspace{-25pt}
+%---------------------------
+\begin{wrapfigure}{r}{.275\textwidth}
+%
+%\includegraphics[width=\linewidth, height=.2\linewidth]{figure_1a.pdf}
+\subfloat[Observed raster plot]{\includegraphics[width=.49\linewidth]{figure_1a.pdf}}%
+\hfill
+\subfloat[Raster plot of PGs]{\includegraphics[width=.49\linewidth]{figure_1b.pdf}}%
+%\vspace{-55pt}
+{
+\caption{A multi-unit raster plot is generated as the superposition of repeated spiking motifs. For illustration, we show here a superposition of $4$ different motifs, each denoted by a different color, and on a synaptic space of $10$ neurons. This superposition is then used to draw a raster plot on the the multi-unit address space. This defines a generative model for the synthesis of raster plots which, in turn, can be inverted to define an inference model for their efficient detection.
+}
+\label{fig:1}
+}
+\vspace{-5pt}
+\end{wrapfigure}
+%---------------------------
 %
 % * Limit : not online - in the future it is a model of a neuron
 %
-\paragraph*{Figure 1 (right): Heterogeneous delays neuron model for spiking motif detection}
+In general, a spiking neuron is defined on the one hand by the equations governing the evolution of its membrane potential dynamics on its soma and on the other hand by the characterization of the synaptic contacts on its dendritic tree. A classical characterization consists in detailing the synaptic weights of each synaptic contact on the dendritic tree. A more detailed examination of these synaptic contacts reveals the added importance of hetero-synaptic delays, i.e., the precise timing from synaptic activation to its integration into the soma, and how this changes the network's dynamics~\citep{Izhikevich06}. Thus, we can parameterize each neuron by the set of tuples defining the weight and delay of each synaptic contact. By discretization of time (with here an arbitrary unitary time unit), we can also define the dendrite as a matrix giving the weight corresponding to the different delays $d \in [0, D]$ (where $D$ is the maximum delay) on different pre-synaptic addresses $a \in [1, N]$ defining the list of the $N$ dendrites. We will denote as $W(a, d)$ these weights. When a neuron is activated by a discharge pattern that corresponds to this specific set of delays and addresses, the discharge probability will increase. Following the observations of~\citet{Izhikevich06}, let us assume that such precise discharge pattern defines a polychronous group (PG). Assuming that we know there exists $M$ such groups, we will define as $b \in [1, M]$ the address of a PG and as $W_b$ the corresponding weight matrices. This allows then to derive a generative model for raster plots (see Figure~\ref{fig:1}).
 
-Given a generic raster plot defined by a set of spikes occurring on specific addresses and at specific times, one may consider that this information consists in the repeated occurrence of groups of precise motifs of spikes. The top part of the figures represents a raster plot with the occurrence of 2 different spiking motifs: a purple one and a red one. The orange arrows represent the synaptic delays (the longer the arrow, the longer the delay) of our spiking neuron model that will multiplex in time the incoming spikes. Multiplexed patterns are drawn in orange and represent the time at which incoming spikes will reach the soma of the neuron. One can notice that spikes from the red pattern will reach the soma synchronously. The bottom part of the figure represent the evolution of the membrane potential of the spiking neuron. At 600 ms, all spikes from the red spiking motif reach the soma at the same time leading to a sudden increase of the membrane potential on the neuron. Note that the neuron is not very sensitive to the background activity or the other spiking motif, only this synchronous arrival of the red spikes leads to an output spike represented in red on the bottom figure. The spiking mechanism of this neuron acts as a coincidence detector on the postsynaptic activity. A mathematical formulation is given by equation~\eqref{eq:mem_pot}. 
+Indeed, the probability of firing of a neuron $a$ at a given time $t$ can be understood as a Bernoulli trial whose (only) parameter is a bias $p(t, a) \in [0, 1]$. Assuming that the presence of PGs is conditionally independent, this bias can be written as the combination of these factors, whose values are given by the corresponding weights. PGs may be activated independently at random times and  we write that $B(b, t)=1$ if $b$ is activated at $t$ (and else $B(b, t)=0$). We can thus write the probability bias as %the joint probability given these factors as 
+$%$
+p(t, a) = \sigma\big(W_0 + \sum_{b, t} B(b, t) \cdot W_b(a, t-d) \big)  
+$, %$
+where $\sigma$ is the sigmoid function. We will further assume that the weights are balanced (their mean is zero) and that $W_0$ is a bias such that $p_0=\sigma(W_0)$ is the average background firing rate. Conveniently, one can write this summation as a one-dimensional temporal convolution operator such that we may simply write $p = \sigma(W_0 + B \ast W )$ where  $p\in [ 0, 1]^{N\times T}$ and $B\in \{0, 1\}^{M\times T}$ is the raster plot corresponding to the temporal activation of the PGs. Finally, we obtain the raster plot $A\in \{0, 1\}^{N\times T}$ by drawing spikes using independent Bernoulli trials $A \sim \mathcal{B}(p)$. Note that, depending on the shape of the kernels, the generative model can model a Poisson process, generate rhythmic activity or more generally propagating waves. This formulation thus defines a simple generative model for raster plots as a combination of independent PGs. 
 
-\paragraph*{Mathematical formalism of the membrane potential of our spiking neuron model:}
-\begin{equation}
-\mempot(\timev) = \restpot + \gain \cdot (\threspot-\restpot) \cdot \sum_{\ranksyn} \synapticweight_\ranksyn \sum_{\arank \in \eventstream_\ranksyn} \kernel_\ranksyn(\timev, t_\arank) - \sum_{\firerank \in \eventstream_\channel} (\threspot-\restpot) \cdot e^{-\frac{\timev - \timev_\firerank}{\tau}}
-\label{eq:mem_pot}
-\end{equation}
-where $\restpot$ is the resting membrane potential, $\threspot$ is the membrane potential threshold, $\synapticweight_\ranksyn$ and $\synapticdelay_\ranksyn$ are respectively the synaptic weight and delay of synapse $\ranksyn$, $\gain$ is the gain of the neuron, $\eventstream_\ranksyn$ and $\eventstream_\channel$ are both event streams associated respectively to the synaptic address $\ranksyn$ and the neuronal address $\channel$ and $\kernel_\ranksyn$ is the kernel applied to the input spikes. Note that this formulation corresponds to the solution of a Leaky Integrate and Fire (LIF) neuron if we use the following kernel: $\kernel_\ranksyn(\timev, \timev_\arank) = e^{-\frac{ \timev-\timev_\arank-\synapticdelay_\ranksyn}{\tau}}$.\\
-\\
-\break
-%
-\vspace{-1.5cm}
-\paragraph*{Unsupervised learning\\}
+%---------------------------
+\begin{wrapfigure}{r}{.275\textwidth}
+\vspace{-15pt}
+% ❯ git add figure_N_PG_time.pdf figure_N_PGs.pdf figure_N_pre.pdf
+%\subfloat[]{
+\includegraphics[width=\linewidth]{figure_N_PGs.pdf}
+%}%
+%\subfloat[]{\includegraphics[width=.49\linewidth]{Figures/fig_methods_nat.pdf}}%
+\vspace{-25pt}
+{
+\caption{Accuracy of PG detection as a function of the number $M$ of kernels.
+}
+\label{fig:2}
+}
+\vspace{-10pt}
+\end{wrapfigure}
+%---------------------------
+This generative model allows to define an inference model for guessing sources $B$ when observing a raster plot $A$. This assumes that we know the PGs as defined by the $W_b$ matrices. The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider PG kernels with similar decreasing exponential time profile, we can prove that this is similar to %finding the tuning function of L-NL neurons, as used in 
+the method of~\citet{berens_fast_2012}. In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. Using this forward model, it possible to estimate the logit (inverse of a sigmoid) $\hat{B}(b, t)$ for the presence of a PG of address $b$ and at time $t$ by using the transpose convolution operator. It thus comes that when observing $A$, then one may infer $\hat{B} = A \ast W^T$ and select the most activated items. To quantify the efficiency of this operation, we generated $M=55$ synthetic PGs as random independent kernels over $128$ presynaptic inputs and $D=127$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and with on average $2.0$ occurrences each. This allowed us to generate raster plots which we use to infer $\hat{B}$. We compute the accuracy as the rate of true positive detections and observe on average $\approx 98\%$ correct PGs both for the address and %(exact) 
+timing.
 
-\begin{multicols}{2}
+%---------------------------
+\begin{wrapfigure}{r}{.275\textwidth}
+\vspace{-10pt}
+% ❯ git add figure_N_PG_time.pdf figure_N_PGs.pdf figure_N_pre.pdf
+%\subfloat[]{
+\includegraphics[width=\linewidth]{figure_N_PG_time.pdf}
+%}%
+%\subfloat[]{\includegraphics[width=.49\linewidth]{Figures/fig_methods_nat.pdf}}%
+\vspace{-25pt}
+{
+\caption{Accuracy of PG detection as a function of the temporal depth $D$ of kernels.
+}
+\label{fig:3}
+}
+\vspace{-15pt}
+\end{wrapfigure}
+%---------------------------
+We further extended this result by showing how the accuracy would evolve as a function of the number of simultaneous PGs, while keeping the same frequency of occurrence. We show in Figure~\ref{fig:2} that the accuracy of finding the right PG is still above $80\%$ accuracy with more than $1364$ PGs. Moreover, we show in Figure~\ref{fig:3} that (with $M=55$ PGs fixed) the accuracy increases notably as the temporal depth $D$ of the PG kernel increased, demonstrating quantitatively the potential of hetero-synaptic delays. These results were obtained while assuming that we know $W$. However, this is in general not the case, for instance when observing the raster plot of a population of neurons. Inspired by the k-means algorithm, it is possible to devise a self-supervised learning algorithm. Our preliminary results show that it is possible to retrieve PGs embedded in the data, yet that further analysis is necessary to improve the convergence of the algorithm. In particular, it seems promising to use a sparseness constraint in the inference mechanism such as to remove spurious correlations in the inference.
 
-We report few existing methods using the proposed spiking mechanism and training synaptic weights and delays~\cite{nadafian_bio-plausible_2020, zhang_supervised_2020}. However, \cite{nadafian_bio-plausible_2020} does not converge and needs a stop condition on the delay learning and~\cite{zhang_supervised_2020} is supervised on the desired postsynaptic spike time. 
-Here, we propose a generic gradient-based learning rule on both weights and delays. 
-We define a loss function (equation~\eqref{eq:loss}) that will maximize the membrane potential of the neuron at the output spike time ($\timev_\firerank$). Delays will be adjusted to synchronize the repeating spiking motifs (equation~\eqref{eq:delay}) and weights will be increased when the corresponding delays match correctly the input spikes (equation~\eqref{eq:weight}). Because synaptic weights are normalized to sum to 1, they will represent the probability of the associated presynaptic neuron to contribute to the spiking motif. Then, patterns do not have to be composed of the same number of spikes. A regularization term is added to keep a stable firing rate ($r_\channel$) for the neuron (right term of equation~\eqref{eq:loss}). The gain of the neuron can be adjusted to respect this condition. From this loss function, we can derive learning rules for both synaptic weights and delays, and a homeostatic regulation rule, of the neuron. We can this generic formulation to different types of kernel to model the postsynaptic activity. In this work, we choose a non-causal LIF kernel (equation~\eqref{eq:nclk}). It can also be generalized for a layer of neurons with a winner-take-all mechanism to detect multiple spiking motifs.
 
-\columnbreak
-\noindent \textbf{Loss function:}
-%
-\begin{equation}\label{eq:loss}
-\loss(\timev_\firerank) = -\mempot(\timev_\firerank) + \lambda \cdot \left| N_\firerank - r_\channel \cdot T \right|
-\end{equation}
-$\lambda$ is a regularization factor, $N_\firerank$ is the number of spikes that occured during time window $T$ and $r_\channel$ is the objective average firing rate for neuron $\channel$.\\
-%
-\\
-\textbf{Learning rule for the delays and the weights:}
-%
-\begin{equation}\label{eq:delay}
-\synapticdelay_\ranksyn = \synapticdelay_\ranksyn + \learningrate_\synapticdelay \cdot \synapticweight_\ranksyn \cdot \sum_{\arank \in \eventstream_\ranksyn} \frac{\partial \kernel_\ranksyn(\timev_\firerank, t_\arank)}{\partial \synapticdelay_\ranksyn}
-\end{equation}
-%
-\begin{equation}\label{eq:weight}
-\synapticweight_\ranksyn = \synapticweight_\ranksyn + \learningrate_\synapticweight \cdot \sum_{\arank \in \eventstream_\ranksyn} \kernel_\ranksyn(\timev_\firerank, t_\arank)
-\end{equation}
-\\
-\textbf{Homeostatic adaptation of the gain:}
-\begin{equation}\label{eq:gain}
-\gain = \gain + \learningrate_\gain \cdot \lambda \cdot N_\firerank \cdot sgn(1-\gain)/T
-\end{equation}
+% \section{Theoretical framework for polychronous group detection}
 
-For this work, we use a non causal LIF kernel for the training:
-\begin{equation}\label{eq:nclk}
-\kernel_\ranksyn(\timev_\firerank, \timev_\arank) = e^{-\frac{\left| \timev_\firerank-\timev_\arank-\synapticdelay_\ranksyn \right|}{\tau}}
-\end{equation}
-$$\frac{\partial \mempot(\timev_\firerank)}{\partial \synapticdelay_\ranksyn} = \frac{\synapticweight_\ranksyn}{\tau} \sum_{\arank \in \eventstream_\ranksyn}sgn(\timev_\firerank-\timev_\arank-\synapticdelay_\ranksyn) \cdot \kernel_\ranksyn(\timev_\firerank, \timev_\arank)$$
-\end{multicols}
-%
 
-\paragraph*{Figure 2}
-Here put a figure where we learn different types of spiking motifs with one neuron
+%\vspace{-55pt}
+%\subsubsection*{References}
+\textbf{References.} %}
+%{
+%\small
+%\footnotesize
+%\begingroup
+%\setstretch{0.75}
+%\setlength\bibitemsep{1pt}
+%\begingroup
+%\setstretch{0.75}
+%\setlength\bibitemsep{1pt}
+%\printbibliography[heading=none]
+%\printbibliography
+%\endgroup
+%\endgroup
+%}
+\cite{Izhikevich06}~\href{http://izhikevich.org/publications/spnet.htm}{Izhikevich, \emph{Neural Computation}, 2006.}
+\cite{berens_fast_2012}~\href{https://www.jneurosci.org/content/32/31/10618}{Berens et al., \emph{Journal of Neuroscience}, 2012.}
+\end{document}
 
-Maybe add a figure where we show the STDP with the delays and the evolution of the weights as well
+
+
 %
 \printbibliography
 \end{document}
