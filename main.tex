@@ -97,29 +97,33 @@ There has been a recent surge of interest for the detection of reoccurring spike
 \hrule
 %---------------------------
 \textbf{Additional Details.}%
-%
 
-%\vspace{-25pt}
-%---------------------------
+%
 \begin{figure}[h!]%wrapfigure}{}{\textwidth}
-\subfloat[Multi-unit raster plot]{
-\includegraphics[width=.245\linewidth]{figure_1a_k.pdf}
-}%
-\hfill
-%\subfloat[Raster plot of PGs]{
-\includegraphics[width=.245\linewidth]{figure_1b.pdf}
-%}%
-\includegraphics[width=.245\linewidth]{figure_1c.pdf}
-\includegraphics[width=.245\linewidth]{figure_1a.pdf}
-%\vspace{-55pt}
+  % \subfloat[M]{%ulti-unit raster]{
+    \includegraphics[width=.245\linewidth]{figure_1a_k.pdf}
+  % }%
+  % %\hfill
+  % \subfloat[M]{%Spiking motifs]{
+    \includegraphics[width=.245\linewidth]{figure_1b.pdf}
+  % }%
+  % \subfloat[M]{%Raster of motifs]{
+  \includegraphics[width=.245\linewidth]{figure_1c.pdf}
+  % }%
+  % %\hfill
+  % \subfloat[M]{%Annotated raster]{
+    \includegraphics[width=.245\linewidth]{figure_1a.pdf}
+  % }
+  %\vspace{-55pt}
 {
-\caption{A multi-unit raster plot is generated as the superposition of repeated spiking motifs. For illustration, we show here a superposition of $4$ different motifs, each denoted by a different color, and on a synaptic space of $10$ neurons. This superposition is then used to draw a raster plot on the the multi-unit address space. This defines a generative model for the synthesis of raster plots which, in turn, can be inverted to define an inference model for their efficient detection.
+\caption{A multi-unit raster plot is seen as the superposition of repeated spiking motifs. We show these different motifs, each denoted on top by a different color, and on a synaptic space of $10$ neurons. This superposition is then used to draw a raster plot on the the multi-unit address space. This defines a generative model for the synthesis of raster plots which, in turn, can be inverted to define an inference model for their efficient detection.
 }
 \label{fig:1}
 }
 \vspace{-5pt}
 \end{figure}%wrapfigure}
 %---------------------------
+
 %
 % * Limit : not online - in the future it is a model of a neuron
 %
