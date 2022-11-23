@@ -97,10 +97,8 @@ There has been a recent surge of interest for the detection of reoccurring spike
 \hrule
 %---------------------------
 \textbf{Additional Details.}%
-
 %
 \begin{figure}[h!]%wrapfigure}{}{\textwidth}
-<<<<<<< HEAD
   % \subfloat[M]{%ulti-unit raster]{
     \includegraphics[width=.245\linewidth]{figure_1a_k.pdf}
   % }%
@@ -116,23 +114,6 @@ There has been a recent surge of interest for the detection of reoccurring spike
     \includegraphics[width=.245\linewidth]{figure_1a.pdf}
   % }
   %\vspace{-55pt}
-=======
-\subfloat[Multi-unit raster plot]{
-\includegraphics[width=.245\linewidth]{figure_1a_k.pdf}
-}%
-%\hfill
-\subfloat[Spiking motifs]{
-\includegraphics[width=.245\linewidth]{figure_1b.pdf}
-}%
-\subfloat[Raster plot of motifs]{
-\includegraphics[width=.245\linewidth]{figure_1c.pdf}
-}%
-%\hfill
-\subfloat[Multi-unit raster plot]{
-\includegraphics[width=.245\linewidth]{figure_1a.pdf}
-}
-%\vspace{-55pt}
->>>>>>> f470d203b1f0e22a7ec83ab36b8ac9653abee01e
 {
 \caption{A multi-unit raster plot is seen as the superposition of repeated spiking motifs. We show these different motifs, each denoted on top by a different color, and on a synaptic space of $10$ neurons. This superposition is then used to draw a raster plot on the the multi-unit address space. This defines a generative model for the synthesis of raster plots which, in turn, can be inverted to define an inference model for their efficient detection.
 }
@@ -170,8 +151,8 @@ where $\sigma$ is the sigmoid function. We will further assume that the weights 
 \vspace{-10pt}
 \end{wrapfigure}
 %---------------------------
-This generative model allows to define an inference model for guessing sources $B$ when observing a raster plot $A$. This assumes that we know the PGs as defined by the $W_b$ matrices. The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider PG kernels with similar decreasing exponential time profile, we can prove that this is similar to %finding the tuning function of L-NL neurons, as used in 
-the method of~\citet{berens_fast_2012}. In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. Using this forward model, it possible to estimate the logit (inverse of a sigmoid) $\hat{B}(b, t)$ for the presence of a PG of address $b$ and at time $t$ by using the transpose convolution operator. It thus comes that when observing $A$, then one may infer $\hat{B} = A \ast W^T$ and select the most activated items. To quantify the efficiency of this operation, we generated $M=55$ synthetic PGs as random independent kernels over $128$ presynaptic inputs and $D=127$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and with on average $2.0$ occurrences each. This allowed us to generate raster plots which we use to infer $\hat{B}$. We compute the accuracy as the rate of true positive detections and observe on average $\approx 98\%$ correct PGs both for the address and %(exact) 
+This generative model allows to define an inference model for guessing sources $B$ when observing a raster plot $A$. This assumes that we know the PGs as defined by the $W_b$ matrices. The underlying metric is the binary cross-entropy, as used in the logistic regression model. % In particular, if we consider PG kernels with similar decreasing exponential time profile, we can prove that this is similar to finding the tuning function of L-NL neurons, as used in the method of~\citet{berens_fast_2012}.
+ In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. Using this forward model, it possible to estimate the logit (inverse of a sigmoid) $\hat{B}(b, t)$ for the presence of a PG of address $b$ and at time $t$ by using the transpose convolution operator. It thus comes that when observing $A$, then one may infer $\hat{B} = A \ast W^T$ and select the most activated items. To quantify the efficiency of this operation, we generated $M=55$ synthetic PGs as random independent kernels over $128$ presynaptic inputs and $D=127$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and with on average $2.0$ occurrences each. This allowed us to generate raster plots which we use to infer $\hat{B}$. We compute the accuracy as the rate of true positive detections and observe on average $\approx 98\%$ correct PGs both for the address and %(exact) 
 timing.
 
 %---------------------------
