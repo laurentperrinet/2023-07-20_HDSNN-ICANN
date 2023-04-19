@@ -170,7 +170,7 @@
 Over the past decade, tremendous technological advances across multiple disciplines have dramatically expanded the frontiers of experimentally accessible neuroscience. % Bridging different spatial and temporal scales, combining \textit{in vivo} two-photon imaging, large population recording array technologies, optogenetic circuit control tools, transgenic manipulations, as well as large volume circuit reconstructions, 
 These tools are now being used to probe the function, structure, and dynamics of neural networks at unprecedented levels of detail and precision. The staggering complexity of biological reality revealed by these technologies highlights the importance of neurobiological knowledge to provide a conceptual bridge between abstract principles of brain function and their biological implementation in neural circuits. As a consequence, there is a growing need to scale such analysis methods to larger amounts of data. 
 
-There are several approaches that try to solve this problem. One algorithm capable of accomplishing such a daunting task is the Rastermap algorithm~\cite{pachitariu_robustness_2018}. Basically, it rearranges neurons in the raster map based on the similarity of their activity and applies a deconvolution strategy based on a linear model. However, this method has mainly been tested on calcium imaging data, which is known to add some imprecision to the timing of the original spiking activity. 
+There are several approaches that try to solve this problem. One algorithm capable of accomplishing such a daunting task is the Rastermap algorithm~\cite{pachitariu_robustness_2018}. Basically, it rearranges neurons in the raster map based on the similarity of their activity and applies a deconvolution strategy based on a linear model. However, this method has mainly been tested on calcium imaging data, which is known to add some imprecision to the timing of the spiking activity oberved in Spiking Unit Activity (SUA) recordings. 
 % In~\cite{russo_cell_2017}, the authors developed novel machine learning tools and statistical tests for unsupervised spatiotemporal pattern detection in non-stationary environments, which were applied to simultaneous electrophysiological recordings from tens to hundreds of neurons to decode cognitive processes from neural activity. Overall, this provides evidence for the importance of such machine-learning based tools to provide breakthroughs in neuroscience.
 
 % In the paper by~\cite{russo_cell_2017}, the authors present a unifying methodological and conceptual framework that detects assembly structure at many different timescales, levels of precision, and with arbitrary internal organization. 
@@ -180,11 +180,7 @@ To overcome the limitations of models that either require spike times to be disc
 \subsection{Decoding neural activity using spike distances}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Overall, these methods rely on the definition of metrics to compute the distance between spike trains.
-% There are several solutions to provide a distance between two given spike trains. 
-One well-known measure is the Victor-Purpura distance, which overcomes inconsistencies experienced with a firing rate (Poisson model) of spike trains~\cite{victor_nature_1996}.
-% 
-A further study attempts to refine the metric by including a time constant as a parameter which is then used to interpolate the distance between a coincidence detector and a rate difference counter~\cite{van_rossum_novel_2001}. Such distances have been extended to non-Euclidean metrics and to the use of morphological manipulations to compute spike train dissimilarity~\cite{kreuz_measuring_2007}. These observations lead to the intuition that any distance may be the optimal solution of a generative model for these measures, possibly through non-linear relations.%~\cite{aronov_non-euclidean_2004}. 
+Overall, these methods rely on the definition of metrics to compute the distance between spike trains. One well-known measure is the Victor-Purpura distance, which overcomes inconsistencies experienced with a firing rate (Poisson model) of spike trains~\cite{victor_nature_1996}. A further study attempts to refine the metric by including a time constant as a parameter which is then used to interpolate the distance between a coincidence detector and a rate difference counter~\cite{van_rossum_novel_2001}. Such distances have been extended to non-Euclidean metrics and to the use of morphological manipulations to compute a spike train dissimilarity~\cite{kreuz_measuring_2007}. These observations lead to the intuition that any distance may be the optimal solution of a generative model for these measures, possibly through non-linear relations.%~\cite{aronov_non-euclidean_2004}. 
 
 Regarding spike timings, Levakova {\it et al}~\cite{levakova_review_2015} have reviewed existing methods for estimating the latency of neural responses that include Bayesian binning. Alternatively, unitary event analysis can be performed using a statistical model of chance detection~\cite{grun_unitary_2002-1}. This has been used extensively to detect significant synchronous patterns above chance%~\cite{grun_unitary_2010}
 , especially in recordings of neuron pairs (see~\cite{riehle_spike_1997} for example). %This has recently been extended in~\cite{stella_3d-spade_2019} to find reoccurring patterns in parallel spike train data and determine their statistical significance. 
@@ -194,12 +190,11 @@ Including the possible existence to a temporal dithering of spike times improves
 \subsection{Detecting spiking motifs with a heterogeneous delays SNN}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-
-% A striking example is given for the barn owl auditory system: As it hears the sound of a mouse, this sound will generate a specific spiking response in both ears, and specifically, the precise timing between these signals can be used to determine the position of the prey~\cite{goodman_spike-timing-based_2010}. 
+These methods highlight the role of spike timing, and a striking example is given for the barn owl auditory system: When it hears the sound of a mouse, this sound generates a specific spiking response in both ears, and in particular, the precise timing between these signals can be used to determine the position of the prey~\cite{goodman_spike-timing-based_2010}. In particular, there is now a large body of literature showing that the dynamics of the brain are often organized into stereotyped sequences (for a review, see~\cite{grimaldi_precise_2022}).
 
 % We believe that the detection of spiking motifs should be based on a proper understanding of spiking neural networks (SNNs). However, most existing SNNs, especially those adapted from analogous deep learning like architectures, rely on encoding information based on a continuously varying firing rate.
 % Notable exceptions of SNNs using precise spike timing are the time coding machine of~\cite{lazar_time_2004} and the 
-These methods highlight the role of spike timing, and here, we propose a new metric inspired by the \textit{polychronization} model of Izhikevich~\cite{izhikevich_polychronization_2006}. This theoretical model is based on a random recurrent model of spiking neurons that includes synaptic delays chosen from a range of biologically realistic delays (from $0$ to $20~\ms$) and whose weights are evolving with a Spike-Time Dependent Plasticity (STDP) learning rule. Delays are defined as the total time taken for a spike to travel from the soma of one presynaptic neuron to that of the efferent postsynaptic neuron. Note that only the weights are changed using the STDP rule, and that the set of delays is randomly set at initialization and then ``frozen'' for the rest of the simulation. 
+Here, we propose a new metric inspired by the \textit{polychronization} model of Izhikevich~\cite{izhikevich_polychronization_2006}. This theoretical model is based on a random recurrent model of spiking neurons that includes synaptic delays chosen from a range of biologically realistic delays (from $0$ to $20~\ms$) and whose weights are evolving with a Spike-Time Dependent Plasticity (STDP) learning rule. Delays are defined as the total time taken for a spike to travel from the soma of one presynaptic neuron to that of the efferent postsynaptic neuron. Note that only the weights are changed using the STDP rule, and that the set of delays is randomly set at initialization and then ``frozen'' for the rest of the simulation. 
 
 Due to the interplay between the delays and the STDP, the spiking neurons spontaneously self-organize into groups and %generate patterns of stereotypical polychronous activity, i.e., 
 exhibit reproducible time-locked firing patterns, which the author defines as ``polychronous groups''. A key component of this model is the fact that the neurons in a group fire at different times, but because of the existence of heterogeneous delays, the spikes may converge at the postsynaptic neuron at the same time. This synchrony of arrival at the soma of the neuron leads to the summation of the excitatory postsynaptic potentials evoked by each spike, and thus to the crossing of the voltage threshold and the discharge of a spike (see Figure~\ref{fig:izhikevich}). According to the STDP rule, the group of neurons involved in this polychronous activity will see their synaptic weight increase and thus may consolidate the formation of a polychronous group.  A limitation of this model is that these heterogeneous delays are fixed and can not evolve in time.
@@ -240,7 +235,18 @@ This defines the full connectivity of the HD-SNN model. Of particular interest i
 $ \cup_{\arank \in [1,\numevent]} \{ \{(\postsynaddr_\ranksyn, \synapticweight_\ranksyn, \timev_\arank + \synapticdelay_\ranksyn) \}_{ \ranksyn \in \synapse_{\presynaddr_\arank}} \}$. In biology, this new stream of events is naturally ordered in time as events reach the soma of post-synaptic neurons. In particular, when post-synaptic neurons are activated on their soma by this spatio-temporal motif, the discharge probability will increase, notably when these spikes converge on the soma in a synchronous manner. 
 
 From the perspective of simulating such event-based computations on standard CPU- or GPU-based computers, it is useful to transform this event-based representation into a dense representation. Indeed, we may transform any event-based input as the boolean matrix $A \in \{0, 1 \}^{N\times T}$, where $N$ is the number of presynaptic neurons in $\presynaddrspace$ and $T$ is the number of time bins. In this simplified model, we will consider that heterogeneous delays are integers limited in range between $0$ and $D$ (that is, $\forall {\ranksyn \in [1,\Nsyn]}$, $0 \le \synapticdelay_\ranksyn \le D$) such that the synaptic set can be represented by the dense matrix $\kernel^\postsynaddr \in \mathbb{R}^{N\times D}$ giving for each neuron $\postsynaddr$ the weights as a function of presynaptic address and delay. It is equal to zero except on synapses: $\forall {\ranksyn \in \synapse^\postsynaddr}, \kernel^\postsynaddr(\presynaddr_\ranksyn,  \synapticdelay_\ranksyn) = \synapticweight_\ranksyn$. Equivalently, one may define for each presynaptic neuron $\presynaddr$ the emitting kernel as the transpose kernel $\kernel^T_\presynaddr \in \mathbb{R}^{M\times D}$, where $M$ is the number of postsynaptic neurons, whose values are zero except on synapses:  $\forall {\ranksyn \in \synapse_\presynaddr}, \kernel^T_\presynaddr(\postsynaddr_\ranksyn,  \synapticdelay_\ranksyn) = \synapticweight_\ranksyn$.
+%---------------------------
+\begin{figure}[t]%[h!]
+  \includegraphics[width=.50\linewidth]{figures/THC_1a_k.pdf}
+  \includegraphics[width=.46\linewidth]{figures/THC_1b.pdf}\\
+\includegraphics[width=.50\linewidth]{figures/THC_1c.pdf}
+  \includegraphics[width=.50\linewidth]{figures/THC_1a.pdf}
 
+\caption{\textbf{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ neurons. \textbf{(b)}~We show these motifs, each identified at the top by a different color. Each neuron and $71$ different possible delays is assigned the evidence of activation (red) or deactivation (blue). \textbf{(c)}~The activation in time of the different motifs is then used to define a generative model for drawing a raster plot on the multi-unit address space. \textbf{(d)}~By inverting this model, an inference model can be defined for their efficient detection. The original raster plot can be annotated with each identified spiking motif.
+}
+\label{fig:THC}
+\end{figure}
+%---------------------------
 \subsection{A generative model for raster plots}
 
 As described in Figure~\ref{fig:izhikevich}, a spiking motif can be detected using a properly tuned HD-SNN. Taking the argument the other way around, one may form a generative model for realistic raster plots in which any spikes in the presynaptic address space are generated by afferent spiking neurons and knowing that these are connected by a set of weights and delays whose structure is stable relatively to the coding timescale. When connection weights are strong and sparsely distributed, this firing will cause a specific temporal motif. Overall, these examples show that raster plots may be considered as a mixture of the effects of different elementary causes, and that each event triggers a specific spatio-temporal spiking motif. 
@@ -288,18 +294,7 @@ Finally, we obtain the raster plot $A\in \{0, 1\}^{N\times T}$ by drawing spikes
 %
 %
 %Following the observations of~\cite{izhikevich_polychronization_2006}, let us assume that such precise discharge motif defines a polychronous group (PG). Assuming that we know there exists $M$ such groups, we will define as $b \in [1, M]$ the address of a PG and as $\kernel_b$ the corresponding weight matrices. This allows then to derive a generative model for raster plots (\fig{model}-(b)).
-%---------------------------
-\begin{figure}[t]%[h!]
-    \includegraphics[width=.50\linewidth]{figures/THC_1a_k.pdf}
-    \includegraphics[width=.46\linewidth]{figures/THC_1b.pdf}\\
-  \includegraphics[width=.50\linewidth]{figures/THC_1c.pdf}
-    \includegraphics[width=.50\linewidth]{figures/THC_1a.pdf}
-  
-\caption{\textbf{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ neurons. \textbf{(b)}~We show these motifs, each identified at the top by a different color. Each neuron and $71$ different possible delays is assigned the evidence of activation (red) or deactivation (blue). \textbf{(c)}~The activation in time of the different motifs is then used to define a generative model for drawing a raster plot on the multi-unit address space. \textbf{(d)}~By inverting this model, an inference model can be defined for their efficient detection. The original raster plot can be annotated with each identified spiking motif.
-}
-\label{fig:THC}
-\end{figure}
-%---------------------------
+
 
 % 
 Assuming that we know the spiking motifs (as defined by the kernel $\kernel$), the generative model defined above allows to determine the optimal (in the Bayesian sense) inference model for inferring sources $\hat{B}$ when observing a raster plot $A$. Indeed, by using this forward model, it is possible to estimate the logit (inverse of a sigmoid) $\hat{B}(b, t)$ for the presence of a spiking motif of address $b$ and at time $t$ by using the transpose convolution operator. Equivalently, this consists in using the emitting field $\synapse_\presynaddr$ of presynaptic neurons in place of the receptive field $\synapse^\postsynaddr$ of postsynaptic neurons. It thus comes that when observing $A$, then one may infer the logit of the probability as the sum of evidences:
@@ -420,6 +415,9 @@ Inspired by the k-means algorithm, it is possible to develop a self-supervised l
 
   \bibitem{ghosh_spatiotemporal_2019}
   Ghosh, R., Gupta, A., Tang, S., Soares, A., Thakor, N.: Spatiotemporal {Feature} {Learning} for {Event}-{Based} {Vision}. arXiv:1903.06923 [cs]  (Mar 2019)
+
+  \bibitem{goodman_spike-timing-based_2010}
+Goodman, D.F.M., Brette, R.: Spike-timing-based computation in sound localization. PLoS Comput Biol  \textbf{6}(11) (Nov 2010). \doi{10.1371/journal.pcbi.1000993}, \url{http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2978676/}
 
   \bibitem{grimaldi_robust_2022}
   Grimaldi, A., Boutin, V., Ieng, S.H., Benosman, R., Perrinet, L.: A robust event-driven approach to always-on object recognition  (Jan 2022). \doi{10/gn62xd}
