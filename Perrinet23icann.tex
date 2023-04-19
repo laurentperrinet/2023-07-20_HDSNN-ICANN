@@ -20,6 +20,7 @@
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage{siunitx}
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{e}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NOTATIONS
 % Pixel world
@@ -183,9 +184,10 @@ Overall, these methods rely on the definition of metrics to compute the distance
 % There are several solutions to provide a distance between two given spike trains. 
 One well-known measure is the Victor-Purpura distance, which overcomes inconsistencies experienced with a firing rate (Poisson model) of spike trains~\cite{victor_nature_1996}.
 % 
-A further study attempts to refine the metric by including a time constant as a parameter which is then used to interpolate the distance between a coincidence detector and a rate difference counter~\cite{van_rossum_novel_2001}. Such distances have been extended to non-Euclidean metrics and to the use of morphological manipulations to compute spike train dissimilarity~\cite{kreuz_measuring_2007}. These observations lead to the intuition that any distance may be the optimal solution of a generative model for these measures, possibly through non-linear relations~\cite{aronov_non-euclidean_2004}. 
+A further study attempts to refine the metric by including a time constant as a parameter which is then used to interpolate the distance between a coincidence detector and a rate difference counter~\cite{van_rossum_novel_2001}. Such distances have been extended to non-Euclidean metrics and to the use of morphological manipulations to compute spike train dissimilarity~\cite{kreuz_measuring_2007}. These observations lead to the intuition that any distance may be the optimal solution of a generative model for these measures, possibly through non-linear relations.%~\cite{aronov_non-euclidean_2004}. 
 
-Regarding spike timings, Levakova {\it et al}~\cite{levakova_review_2015} have reviewed existing methods for estimating the latency of neural responses that include Bayesian binning. Alternatively, unitary event analysis can be performed using a statistical model of chance detection~\cite{grun_unitary_2002-1}. This has been used extensively to detect significant synchronous patterns above chance~\cite{grun_unitary_2010}, especially in recordings of neuron pairs (see~\cite{riehle_spike_1997} for example). %This has recently been extended in~\cite{stella_3d-spade_2019} to find reoccurring patterns in parallel spike train data and determine their statistical significance. 
+Regarding spike timings, Levakova {\it et al}~\cite{levakova_review_2015} have reviewed existing methods for estimating the latency of neural responses that include Bayesian binning. Alternatively, unitary event analysis can be performed using a statistical model of chance detection~\cite{grun_unitary_2002-1}. This has been used extensively to detect significant synchronous patterns above chance%~\cite{grun_unitary_2010}
+, especially in recordings of neuron pairs (see~\cite{riehle_spike_1997} for example). %This has recently been extended in~\cite{stella_3d-spade_2019} to find reoccurring patterns in parallel spike train data and determine their statistical significance. 
 Including the possible existence to a temporal dithering of spike times improves the performance in the presence of patterns with different durations, such as surrogates generated to evaluate precisely timed higher order spike correlations~\cite{stella_comparing_2022}. % include sotomayor-vinck spike Ship
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -326,23 +328,26 @@ The underlying metric is the binary cross-entropy, as used in the logistic regre
 %
 \section{Results}
 %
-To quantify the efficiency of this operation, we generated $M=144$ synthetic spiking motifs as random independent kernels over $128$ presynaptic inputs and $D=71$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and with on average $1.0$ spike per neuron. This allowed us to generate raster plots which we use to infer $\hat{B}$. We compute the accuracy as the rate of true positive detections (both for inferring the address and its exact timing) and observe on average $\approx 98\%$ correct detections.
+To quantify the efficiency of this operation, we generated $M=144$ synthetic spiking motifs as random independent kernels over $N=128$ presynaptic inputs and $D=71$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and an average of $1.0$ spikes per neuron. This allowed us to generate raster plots, which we use to infer $\hat{B}$. We compute accuracy as the rate of true positive detections (both for inferring the address and its exact timing) and observe on average $\approx 98\%$ correct detections.
 
-We further extended this result by showing how the accuracy would evolve as a function of the number of simultaneous spiking motifs, while keeping the same frequency of occurrence. We show in \fig{model_results}~(Left) that the accuracy of finding the right spiking motif is still above $80\%$ accuracy with more than $1364$ overlapping spiking motifs. Moreover, we show in \fig{model_results}~(Right) that (with $M=144$ spiking motifs fixed) the accuracy increases notably as the temporal depth $D$ of the spiking motif kernel increased, demonstrating quantitatively the computational advantage of using heterogeneous delays. These results were obtained while assuming that we know $\kernel$. However, this is in general not the case, for instance when observing the raster plot of a population of neurons. 
+We extended this result by showing how accuracy would evolve as a function of the number of simultaneous spiking motifs, holding the frequency of occurrence constant. We show in \fig{model_results}~(left) that the accuracy of finding the right spiking motif is still above $80\%$ accuracy with more than $1364$ overlapping spiking motifs. This observations illustrates quantitatively the capcity  of the HD-SNN in representing a high number of simulatneous patterns. Furthermore, we show in \fig{model_results}~(middle) that (with $M=144$ spiking motifs fixed) the accuracy increases significantly with increasing temporal depth $D$ of the spiking motif kernel, quantitatively demonstrating the computational advantage of using heterogeneous delays. These results were obtained under the assumption that we know the $\kernel$. However, this is generally not the case, for example, when considering the raster plot of a population of neurons.
 
-We finally evaluated the performance of the supervised learning scheme in learning the kernel when the address and timing of spiking motifs is known. The kernel was initialized... toto
+Finally, we evaluated the performance of the supervised learning scheme in inferring the connection kernel when the address and timing of spiking motifs are known. The kernel was initialized with random independent values, and we used stochastic gradient descent with a learning rate of \num{1e-4} over $\num{1e4}$ trials (i.e., over rasters as defined above with $T=1000$ and $N=128$). Qualitatively, the convergence was regular, and the correct values of the $M=144$ spike motifs were quickly recovered. Quantitatively, the correlation between the true and learned kernel weights showed that all kernels were correctly recovered (see Figure~\ref{fig:model_results}, right). Performing inference with the learned weights was as efficient as with the true kernels, and showed no significant difference (not shown).
+
 % In the following, we will define a generic visual task and determine a learning algorithm to solve that challenging task. %Inspired by the k-means algorithm, it is possible to devise a self-supervised learning algorithm. Our preliminary results show that it is possible to retrieve spiking motifs embedded in the data, yet that further analysis is necessary to improve the convergence of the algorithm. In particular, it seems promising to use a sparseness constraint in the inference mechanism such as to remove spurious correlations in the inference.
 
 %---------------------------
 \begin{figure}%[t!]
   \centering
-  \includegraphics[width=0.480\linewidth]{figures/THC_N_PGs.pdf}
+  \includegraphics[width=0.320\linewidth]{figures/THC_N_PGs.pdf}
 %  \includegraphics[width=0.320\linewidth]{figures/THC_N_pre.pdf}
-  \includegraphics[width=0.480\linewidth]{figures/THC_N_PG_time.pdf}
+  \includegraphics[width=0.320\linewidth]{figures/THC_N_PG_time.pdf}
+  \includegraphics[width=0.320\linewidth]{figures/THC_xcorr-supervised.pdf}
     \caption{Detecting event-based motifs using spiking neurons with heterogeneous delays. 
 Accuracy of detection as a function of  {\bf (Left)}~the number $M$ of kernels, 
     %{\bf (Middle)}~the number of presynaptic neurons, 
-    {\bf (Right)}~the temporal depth $D$ of kernels among $M=144$ kernels.
+    {\bf (Middle)}~the temporal depth $D$ of kernels among $M=144$ kernels.
+    {\bf (Right)} Correlation matrix of true vs learned kernels.
     }
   \label{fig:model_results}
 \end{figure}
@@ -363,7 +368,8 @@ To summarize, in this paper we introduced a heterogeneous delay SNN model that w
 %%%-----------------------------------------------------------------
 We have identified several limitations of our model, which we will now discuss in detail. First, the entire framework is based on discrete time binning, which is incompatible with the continuous nature of biological time. We have used this binning to efficiently implement the framework on conventional hardware, especially GPUs, and in particular to use three-dimensional convolutions. We have tested the effect of the size of the time bin and shown that it has essentially no effect on the results presented in this paper. This is consistent with the relative robustness of other event-based frameworks such as HOTS~\cite{lagorce_hots_2017}, where accuracy was unaffected when the input spikes were subjected to noisy perturbations up to $1~\ms$~\cite{grimaldi_robust_2022}. This suggests the possibility of analytically including a precision term in the temporal value of the input spikes, a mechanism potentially implemented by the filtering implemented by the synaptic time constant of about $5~\ms$. Furthermore, it is possible to circumvent the need for time discretization by using a purely event-based scheme. Indeed, it is not necessary to compute the voltage traces between two spikes~\cite{hanuschkin_general_2010} and it is thus possible to define a purely event-based framework. Such an architecture could provide promising speed gains for the computations.
 
-Another limitation is that this model is purely feed-forward. Thus, the spikes produced by the postsynaptic neurons are generated solely on the basis of information contained in the classical receptive field. However, it is well known that neurons in the same layer can interact via lateral interactions, for example in V1, and that this can be the basis for computational principles~\cite{chavane_revisiting_2022}. For example, the combination of neighboring orientations may contribute to image categorization~\cite{perrinet_edge_2015}. Furthermore, neural information is modulated by feedback information, e.g. to distinguish a figure from its background~\cite{roelfsema_early_2016}, and it has been shown that feedback may be essential for building realistic models of primary visual areas~\cite{boutin_sparse_2020,boutin_effect_2020}, especially to explain non-linear mechanisms~\cite{boutin_pooling_2022}. It is currently not possible to implement these recurrent connections in our implementation (lateral or feedback), mainly due to our use of convolutions. However, the generic theoretical model is able to incorporate them by inserting new spikes into the list of spikes reaching presynaptic addresses. While this is possible in theory, it must be properly adjusted in practice so that these recurrent connections do not amplify neuronal activity outside of a homeostatic state (through extinction or explosion of activity).  
+Another limitation is that this model is purely feed-forward. Thus, the spikes produced by the postsynaptic neurons are generated solely on the basis of information contained in the classical receptive field. However, it is well known that neurons in the same layer can interact via lateral interactions, for example in V1, and that this can be the basis for computational principles~\cite{chavane_revisiting_2022}. For example, the combination of neighboring orientations may contribute to image categorization~\cite{perrinet_edge_2015}. Furthermore, neural information is modulated by feedback information, e.g. to distinguish a figure from its background~\cite{roelfsema_early_2016}, and it has been shown that feedback may be essential for building realistic models of primary visual areas~\cite{boutin_sparse_2020}, especially to explain non-linear mechanisms.%~\cite{boutin_pooling_2022}. 
+It is currently not possible to implement these recurrent connections in our implementation (lateral or feedback), mainly due to our use of convolutions. However, the generic theoretical model is able to incorporate them by inserting new spikes into the list of spikes reaching presynaptic addresses. While this is possible in theory, it must be properly adjusted in practice so that these recurrent connections do not amplify neuronal activity outside of a homeostatic state (through extinction or explosion of activity).  
 
 Such recurrent activity would be essential for the implementation of predictive or anticipatory processes. This is essential in a neural system because it contains multiple different delays that require temporal alignment~\cite{hogendoorn_predictive_2019}. This has already been modeled to explain the flash-lag illusion~\cite{khoei_flash-lag_2017}. As noted above, this could be implemented using generalized coordinates (i.e., variables such as position complemented by velocity, acceleration, jerk, \ldots), and ``neurobiologically, using delay operators just means changing synaptic connection strengths to take different mixtures of generalized sensations and their prediction errors''~\cite{perrinet_active_2014}. Our proposed heterogeneous delay model provides an alternative and elegant implementation solution to this problem.''
 %
@@ -377,272 +383,140 @@ The coding results were obtained under the assumption that we know $W$. However,
 
 
 
-Inspired by the k-means algorithm, it is possible to develop a self-supervised learning algorithm for the automatic detection of spiking motifs. For this, we can draw a random realization for $W$ and define an auto-encoder scheme that, for each grid $A$, infers the sources $B$ and then resynthesizes the corresponding grid. A natural metric is binary cross-entropy, as used in the logistic regression model. Since the model is differentiable, we can optimize $W$ using gradient descent. We can add a homeostatic regularization on the average firing rate of $B$ to ensure that each motif was \emph{a priori} equally activated~\cite{perrinet_role_2010,perrinet_adaptive_2019}. Our preliminary results show that it is possible to retrieve spiking motifs embedded in synthetic data. However, further analysis is needed to improve the convergence of the algorithm and to apply such algorithms to neurobiological data. In particular, it seems promising to use a sparseness constraint in the inference mechanism to remove spurious correlations in the inference.
+Inspired by the k-means algorithm, it is possible to develop a self-supervised learning algorithm for the automatic detection of spiking motifs. For this, we can draw a random realization for $W$ and define an auto-encoder scheme that, for each grid $A$, infers the sources $B$ and then resynthesizes the corresponding grid. A natural metric is binary cross-entropy, as used in the logistic regression model. Since the model is differentiable, we can optimize $W$ using gradient descent. We can add a homeostatic regularization on the average firing rate of $B$ to ensure that each motif was \emph{a priori} equally activated~\cite{perrinet_adaptive_2019}. Our preliminary results show that it is possible to retrieve spiking motifs embedded in synthetic data. However, further analysis is needed to improve the convergence of the algorithm and to apply such algorithms to neurobiological data. In particular, it seems promising to use a sparseness constraint in the inference mechanism to remove spurious correlations in the inference.
 %
-%\subsubsection{Acknowledgements} LP received support from the french government under the France 2030 investment plan, as part of the Initiative d’Excellence d’Aix-Marseille Université – A*MIDEX number AMX-21-RID-025 ``\href{https://laurentperrinet.github.io/grant/polychronies/}{Polychronies}''.
-% \printbibliography 
-%\bibliographystyle{splncs04}
-%\bibliography{ref}
-%\bibliography{references}
-{%\tiny
+% \bibliographystyle{splncs04}
+% % \bibliography{ref}
+% \bibliography{references}
 \begin{thebibliography}{10}
-\providecommand{\url}[1]{\texttt{#1}}
-\providecommand{\urlprefix}{URL }
-\providecommand{\doi}[1]{}%https://doi.org/#1}
-
-\bibitem{aronov_non-euclidean_2004}
-Aronov, D., Victor, J.D.: Non-{Euclidean} properties of spike train metric
-  spaces. Physical Review E  \textbf{69}(6),  061905 (Jun 2004).
- % \doi{10.1103/PhysRevE.69.061905}
+  \providecommand{\url}[1]{\texttt{#1}}
+  \providecommand{\urlprefix}{URL }
+  \providecommand{\doi}[1]{https://doi.org/#1}
   
-\bibitem{barlow_unsupervised_1989}
-Barlow, H.: Unsupervised {Learning}. Neural Comp  \textbf{1}(3),
-  295--311 (Sep 1989). %\doi{10.1162/neco.1989.1.3.295},
+  % \bibitem{aronov_non-euclidean_2004}
+  % Aronov, D., Victor, J.D.: Non-{Euclidean} properties of spike train metric spaces. Physical Review E  \textbf{69}(6),  061905 (Jun 2004). \doi{10.1103/PhysRevE.69.061905}
   
-\bibitem{berens_fast_2012}
-Berens, P., Ecker, A.S., Cotton, R.J., Ma, W.J., Bethge, M., Tolias, A.S.: A
-  {Fast} and {Simple} {Population} {Code} for {Orientation} in {Primate} {V1}.
-  Journal of Neuroscience  \textbf{32}(31),  10618--10626 (Aug 2012).
-  %%\doi{10/f365rn}
+  \bibitem{barlow_unsupervised_1989}
+  Barlow, H.: Unsupervised {Learning}. Neural Computation  \textbf{1}(3),  295--311 (Sep 1989). \doi{10.1162/neco.1989.1.3.295}
   
-\bibitem{boutin_pooling_2022}
-Boutin, V., Franciosini, A., Chavane, F., Perrinet, L.U.: Pooling strategies in
-  {V1} can account for the functional and structural diversity across species.
-  PLOS Computational Biology  \textbf{18}(7),  e1010270 (2022).
-  %\doi{10.1371/journal.pcbi.1010270}
+  \bibitem{berens_fast_2012}
+  Berens, P., Ecker, A.S., Cotton, R.J., Ma, W.J., Bethge, M., Tolias, A.S.: A {Fast} and {Simple} {Population} {Code} for {Orientation} in {Primate} {V1}. Journal of Neuroscience  \textbf{32}(31),  10618--10626 (Aug 2012). \doi{10/f365rn}
   
-
-\bibitem{boutin_sparse_2020}
-Boutin, V., Franciosini, A., Chavane, F.Y., Ruffier, F., Perrinet, L.U.: Sparse
-  {Deep} {Predictive} {Coding} captures contour integration capabilities of the
-  early visual system. PLoS Computational Biology  (May 2020).
-  %\doi{10.1371/journal.pcbi.1008629}
- 
-
-\bibitem{boutin_effect_2020}
-Boutin, V., Franciosini, A., Ruffier, F., Perrinet, L.U.: Effect of top-down
-  connections in {Hierarchical} {Sparse} {Coding}. Neural Comp
-  \textbf{32}(11),  2279--2309 (Feb 2020). %\doi{10.1162/neco_a_01325}
+  % \bibitem{boutin_pooling_2022}
+  % Boutin, V., Franciosini, A., Chavane, F., Perrinet, L.U.: Pooling strategies in {V1} can account for the functional and structural diversity across species. PLOS Computational Biology  \textbf{18}(7),  e1010270 (2022). \doi{10.1371/journal.pcbi.1010270}
   
-\bibitem{chavane_revisiting_2022}
-Chavane, F., Perrinet, L.U., Rankin, J.: Revisiting horizontal connectivity
-  rules in {V1}: from like-to-like towards like-to-all. Brain Structure and
-  Function  (Feb 2022). %\doi{10.1007/s00429-022-02455-4}
+  \bibitem{boutin_sparse_2020}
+  Boutin, V., Franciosini, A., Chavane, F.Y., Ruffier, F., Perrinet, L.U.: Sparse {Deep} {Predictive} {Coding} captures contour integration capabilities of the early visual system. PLoS Computational Biology  (May 2020). \doi{10.1371/journal.pcbi.1008629}
   
-\bibitem{ghosh_spatiotemporal_2019}
-Ghosh, R., Gupta, A., Tang, S., Soares, A., Thakor, N.: Spatiotemporal
-  {Feature} {Learning} for {Event}-{Based} {Vision}. arXiv:1903.06923 [cs]
-  (Mar 2019). %{http://arxiv.org/abs/1903.06923}, 00000 arXiv: 1903.06923
-
-\bibitem{goodman_spike-timing-based_2010}
-Goodman, D.F.M., Brette, R.: Spike-timing-based computation in sound
-  localization. PLoS Comput Biol  \textbf{6}(11) (Nov 2010).
-  %\doi{10.1371/journal.pcbi.1000993}
-\bibitem{grimaldi_robust_2022}
-Grimaldi, A., Boutin, V., Ieng, S.H., Benosman, R., Perrinet, L.: A robust
-  event-driven approach to always-on object recognition  (Jan 2022).
-  %\doi{10/gn62xd}
+  % \bibitem{boutin_effect_2020}
+  % Boutin, V., Franciosini, A., Ruffier, F., Perrinet, L.U.: Effect of top-down connections in {Hierarchical} {Sparse} {Coding}. Neural Computation  \textbf{32}(11),  2279--2309 (Feb 2020). \doi{10.1162/neco_a_01325}
   
-\bibitem{grimaldi_precise_2022}
-Grimaldi, A., Gruel, A., Besnainou, C., Martinet, J., Perrinet, L.U.: Precise
-  {Spiking} {Motifs} in {Neurobiological} and {Neuromorphic} {Dat}. Tech. rep.
-  (2022). %\doi{10.20944/preprints202211.0332.v1}
+  \bibitem{chavane_revisiting_2022}
+  Chavane, F., Perrinet, L.U., Rankin, J.: Revisiting horizontal connectivity rules in {V1}: from like-to-like towards like-to-all. Brain Structure and Function  (Feb 2022). \doi{10.1007/s00429-022-02455-4}
+
+  \bibitem{ghosh_spatiotemporal_2019}
+  Ghosh, R., Gupta, A., Tang, S., Soares, A., Thakor, N.: Spatiotemporal {Feature} {Learning} for {Event}-{Based} {Vision}. arXiv:1903.06923 [cs]  (Mar 2019)
+
+  \bibitem{grimaldi_robust_2022}
+  Grimaldi, A., Boutin, V., Ieng, S.H., Benosman, R., Perrinet, L.: A robust event-driven approach to always-on object recognition  (Jan 2022). \doi{10/gn62xd}
   
-\bibitem{grun_unitary_2002-1}
-Grün, S., Diesmann, M., Aertsen, A.: Unitary events in multiple single-neuron
-  spiking activity: {I}. {Detection} and significance. Neural Comp
-  \textbf{14}(1),  43--80 (Jan 2002). %\doi{10.1162/089976602753284455},
-
-\bibitem{grun_unitary_2010}
-Grün, S., Diesmann, M., Aertsen, A.: Unitary {Event} {Analysis}. In: Grün,
-  S., Rotter, S. (eds.) Analysis of {Parallel} {Spike} {Trains}, pp. 191--220.
-  Springer US, Boston, MA (2010). %\doi{10.1007/978-1-4419-5675-0_10},
-
-\bibitem{gutig_tempotron_2006}
-Gütig, R., Sompolinsky, H.: The tempotron: a neuron that learns spike
-  timing–based decisions. Nature Neuroscience  \textbf{9}(3),  420--428 (Mar
-  2006). %\doi{10/ch29r4}. %{http://www.nature.com/articles/nn1643/}, 00716
-
-\bibitem{haimerl_internal_2019}
-Haimerl, C., Angulo-Garcia, D., Villette, V., Reichinnek, S., Torcini, A.,
-  Cossart, R., Malvache, A.: Internal representation of hippocampal neuronal
-  population spans a time-distance continuum. Proceedings of the National
-  Academy of Sciences  \textbf{116}(15),  7477--7482 (Apr 2019).
-  %\doi{10/ghpbm3}. %{https://www.pnas.org/content/116/15/7477}, 00012 
+  \bibitem{grimaldi_precise_2022}
+  Grimaldi, A., Gruel, A., Besnainou, C., Martinet, J., Perrinet, L.U.: Precise {Spiking} {Motifs} in {Neurobiological} and {Neuromorphic} {Dat}. Tech. rep. (2022). \doi{10.3390/brainsci13010068}
   
-\bibitem{hanuschkin_general_2010}
-Hanuschkin, A., Kunkel, S., Helias, M., Morrison, A., Diesmann, M.: A {General}
-  and {Efficient} {Method} for {Incorporating} {Precise} {Spike} {Times} in
-  {Globally} {Time}-{Driven} {Simulations}. Frontiers in Neuroinformatics
-  \textbf{4}, ~113 (Oct 2010). %\doi{10.3389/fninf.2010.00113}
-
-\bibitem{hogendoorn_predictive_2019}
-Hogendoorn, H., Burkitt, A.N.: Predictive {Coding} with {Neural} {Transmission}
-  {Delays}: {A} {Real}-{Time} {Temporal} {Alignment} {Hypothesis}. eneuro
-  \textbf{6}(2),  ENEURO.0412--18.2019 (Mar 2019). %\doi{10/ggcrbj} 
-\bibitem{ikegaya_synfire_2004}
-Ikegaya, Y., Aaron, G., Cossart, R., Aronov, D., Lampl, I., Ferster, D., Yuste,
-  R.: Synfire {Chains} and {Cortical} {Songs}: {Temporal} {Modules} of
-  {Cortical} {Activity}. Science  \textbf{304}(5670),  559--564 (Apr 2004).
-  %\doi{10/djckcn}. %{http://www.science.org/doi/10.1126/science.1093173}, 
-\bibitem{izhikevich_polychronization_2006}
-Izhikevich, E.M.: Polychronization: {Computation} with spikes. Neural
-  Computation  \textbf{18}(2),  245--282 (Feb 2006).
-  %\doi{10.1162/089976606775093882} 
-
-\bibitem{kass_statistical_2005}
-Kass, R.E., Ventura, V., Brown, E.N.: Statistical issues in the analysis of
-  neuronal data. Journal of neurophysiology  \textbf{94}(1),  8--25 (2005).
-  %\doi{10.1152/jn.00648.2004}, publisher: American Physiological Society
-
-\bibitem{khoei_flash-lag_2017}
-Khoei, M.A., Masson, G.S., Perrinet, L.U.: The {Flash}-{Lag} {Effect} as a
-  {Motion}-{Based} {Predictive} {Shift}. PLOS Computational Biology
-  \textbf{13}(1),  e1005068 (Jan 2017). %\doi{10.1371/journal.pcbi.1005068}
+  \bibitem{grun_unitary_2002-1}
+  Grün, S., Diesmann, M., Aertsen, A.: Unitary events in multiple single-neuron spiking activity: {I}. {Detection} and significance. Neural Computation  \textbf{14}(1),  43--80 (Jan 2002). \doi{10.1162/089976602753284455}%, tex.ids= Grun2002
   
-\bibitem{kreuz_measuring_2007}
-Kreuz, T., Haas, J.S., Morelli, A., Abarbanel, H.D.I., Politi, A.: Measuring
-  spike train synchrony. Journal of Neuroscience Methods  \textbf{165}(1),
-  151--161 (Sep 2007). %\doi{10.1016/j.jneumeth.2007.05.031}
-
-\bibitem{lagorce_hots_2017}
-Lagorce, X., Orchard, G., Galluppi, F., Shi, B.E., Benosman, R.B.: {HOTS}: {A}
-  {Hierarchy} of {Event}-{Based} {Time}-{Surfaces} for {Pattern} {Recognition}.
-  IEEE Transactions on Pattern Analysis and Machine Intelligence
-  \textbf{39}(7),  1346--1359 (2017). %\doi{10.1109/TPAMI.2016.2574707},
-
-\bibitem{lazar_time_2004}
-Lazar, A.A.: Time encoding with an integrate-and-fire neuron with a refractory
-  period. Neurocomputing  \textbf{58-60},  53--58 (Jun 2004).
-  %\doi{10.1016/j.neucom.2004.01.022},
-
-\bibitem{levakova_review_2015}
-Levakova, M., Tamborrino, M., Ditlevsen, S., Lansky, P.: A review of the
-  methods for neuronal response latency estimation. Biosystems  \textbf{136},
-  23--34 (Oct 2015). %\doi{10.1016/j.biosystems.2015.04.008},
-
-\bibitem{luczak_sequential_2007}
-Luczak, A., Barthó, P., Marguet, S.L., Buzsáki, G., Harris, K.D.: Sequential
-  structure of neocortical spontaneous activity in vivo. Proceedings of the
-  National Academy of Sciences  \textbf{104}(1),  347--352 (Jan 2007).
-  %\doi{10.1073/pnas.0605643104}. %{https://www.pnas.org/content/104/1/347},
-
-\bibitem{mackevicius_unsupervised_2019}
-Mackevicius, E.L., Bahle, A.H., Williams, A.H., Gu, S., Denisenko, N.I.,
-  Goldman, M.S., Fee, M.S.: Unsupervised discovery of temporal sequences in
-  high-dimensional datasets, with applications to neuroscience. eLife
-  \textbf{8},  e38471 (Feb 2019). %\doi{10.7554/eLife.38471},
-
-\bibitem{masquelier_competitive_2009}
-Masquelier, T., Guyonneau, R., Thorpe, S.J.: Competitive {STDP}-{Based} {Spike}
-  {Pattern} {Learning}. Neural Comp  \textbf{21}(5),  1259--1276 (May
-  2009). %\doi{10/dds34f},
-
-\bibitem{olshausen_emergence_1996}
-Olshausen, B.A., Field, D.J.: Emergence of simple-cell receptive field
-  properties by learning a sparse code for natural images. Nature
-  \textbf{381}(6583),  607--609 (1996). %\doi{10/dvj4qz}
-
-\bibitem{pachitariu_robustness_2018}
-Pachitariu, M., Stringer, C., Harris, K.D.: Robustness of {Spike}
-  {Deconvolution} for {Neuronal} {Calcium} {Imaging}. The Journal of
-  Neuroscience  \textbf{38}(37),  7976--7985 (2018).
-  %\doi{10.1523/jneurosci.3339-17.2018}. %{https://doi.org/gd9mcx}, this CSL
-
-\bibitem{pastalkova_internally_2008}
-Pastalkova, E., Itskov, V., Amarasingham, A., Buzsáki, G.: Internally
-  {Generated} {Cell} {Assembly} {Sequences} in the {Rat} {Hippocampus}. Science \textbf{321}(5894), % 1322--1327 
-  (2008).
-  %\doi{10.1126/science.1159775}.
-
-\bibitem{perrinet_emergence_2004}
-Perrinet, L.: Emergence of filters from natural scenes in a sparse spike coding
-  scheme. Neurocomputing  \textbf{58-60}(C),  821--826 (2004).
-  %\doi{10.1016/j.neucom.2004.01.133},
-
-\bibitem{perrinet_role_2010}
-Perrinet, L.U.: Role of homeostasis in learning sparse representations. Neural
-  computation  \textbf{22}(7),  1812--36 (2010).
-  %\doi{10.1162/neco.2010.05-08-795}
-
-\bibitem{perrinet_adaptive_2019}
-Perrinet, L.U.: An adaptive homeostatic algorithm for the unsupervised learning
-  of visual features. Vision  \textbf{3}(3), ~47 (2019). %\doi{10/ggkdks},
-
-\bibitem{perrinet_active_2014}
-Perrinet, L.U., Adams, R.A., Friston, K.J.: Active inference, eye movements and
-  oculomotor delays. Biological Cybernetics  \textbf{108}(6),  777--801 (Dec
-  2014). %\doi{10/f6skjq}. %{https://doi.org/10.1007/s00422-014-0620-8},
-
-\bibitem{perrinet_edge_2015}
-Perrinet, L.U., Bednar, J.A.: Edge co-occurrences can account for rapid
-  categorization of natural versus animal images. Scientific reports
-  \textbf{5},  11400 (2015). %\doi{10.1038/srep11400},
-%   tex.ids= Perrinet2015,
-%  Perrinet2015d, PerrinetBednar15 tex.bdsk-url-2:
-%  https://doi.org/10.1038/srep11400 tex.date-added: 2020-03-27 10:11:37 +0100
-%  tex.date-modified: 2020-03-27 10:11:44 +0100 tex.grants: anr-bala-v1
-%  tex.preprint: https://hal-amu.archives-ouvertes.fr/hal-01202447
-%  tex.url\_code: https://github.com/laurentperrinet/PerrinetBednar15 publisher:
-%  Nature Publishing Group url: http://dx.doi.org/10.1038/srep11400
-
-\bibitem{riehle_spike_1997}
-Riehle, A., Grun, S., Diesmann, M., Aertsen, A.: Spike synchronization and rate
-  modulation differentially involved in motor cortical function. Science  \textbf{278}(5345),  1950--1953 (1997).
-  %\doi{10.1126/science.278.5345.1950}
+  % \bibitem{grun_unitary_2010}
+  % Grün, S., Diesmann, M., Aertsen, A.: Unitary {Event} {Analysis}. In: Grün, S., Rotter, S. (eds.) Analysis of {Parallel} {Spike} {Trains}, pp. 191--220. Springer US, Boston, MA (2010). \doi{10.1007/978-1-4419-5675-0_10}
   
-\bibitem{roelfsema_early_2016}
-Roelfsema, P.R., de~Lange, F.P.: Early visual cortex as a multiscale cognitive
-  blackboard. Annual review of vision science  \textbf{2},  131--151 (2016).
-  %\doi{10.1146/annurev-vision-111815-114443}, publisher: Annual Reviews
-
-\bibitem{van_rossum_novel_2001}
-van Rossum, M.C.: A novel spike distance. Neural Comp  \textbf{13}(4),
-  751--763 (2001). %\doi{10.1162/089976601300014321}
-
-\bibitem{russo_cell_2017}
-Russo, E., Durstewitz, D.: Cell assemblies at multiple time scales with
-  arbitrary lag constellations. eLife  \textbf{6},  e19428 (Jan 2017).
-  %\doi{10/f9kxd8}. %{https://doi.org/10.7554/eLife.19428}, tex.ids=  Russo2017 publisher: eLife Sciences Publications, Ltd
-
-\bibitem{stella_comparing_2022}
-Stella, A., Bouss, P., Palm, G., Grün, S.: Comparing {Surrogates} to
-  {Evaluate} {Precisely} {Timed} {Higher}-{Order} {Spike} {Correlations}.
-  eneuro  \textbf{9}(3),  ENEURO.0505--21.2022 (2022).
-  %\doi{10.1523/eneuro.0505-21.2022}. %{https://doi.org/gqjvht}, this CSL  Item was generated by Manubot v0.5.2 from its persistent identifier  (standard\_id). standard\_id: doi:10.1523/eneuro.0505-21.2022
-
-\bibitem{stella_3d-spade_2019}
-Stella, A., Quaglio, P., Torre, E., Grün, S.: {Significance}
-  evaluation of spatio-temporal patterns of various temporal extents.
-  Biosystems  \textbf{185},  104022 (2019).
-  %\doi{10.1016/j.biosystems.2019.104022}. %{https://doi.org/gpshj2}, this  CSL Item was generated by Manubot v0.5.2 from its persistent identifier  (standard\_id). standard\_id: doi:10.1016/j.biosystems.2019.104022
-
-\bibitem{victor_nature_1996}
-Victor, J.D., Purpura, K.P.: Nature and precision of temporal coding in visual
-  cortex: a metric-space analysis. Journal of Neurophysiology  \textbf{76}(2),
-  1310--1326 (1996). %\doi{10.1152/jn.1996.76.2.1310},
-%  \url{https://www.physiology.org/doi/10.1152/jn.1996.76.2.1310}
-
-\bibitem{villette_internally_2015}
-Villette, V., Malvache, A., Tressard, T., Dupuy, N., Cossart, R.: Internally
-  {Recurring} {Hippocampal} {Sequences} as a {Population} {Template} of
-  {Spatiotemporal} {Information}. Neuron  \textbf{88}(2),  357--366 (Oct 2015).
-  %\doi{10/f7whnn},
+  \bibitem{gutig_tempotron_2006}
+  Gütig, R., Sompolinsky, H.: The tempotron: a neuron that learns spike timing–based decisions. Nature Neuroscience  \textbf{9}(3),  420--428 (Mar 2006). \doi{10/ch29r4}
   
-\bibitem{williams_point_2020}
-Williams, A.H., Degleris, A., Wang, Y., Linderman, S.W.: Point process models
-  for sequence detection in high-dimensional neural spike trains. Tech. rep.
-  (Oct 2020). %{http://arxiv.org/abs/2010.04875}, 00003 tex.ids=
-%  Williams2020a arXiv: 2010.04875 rights:
-%  http://creativecommons.org/licenses/by/4.0/
-
-\bibitem{yu_stsc-snn_2022}
-Yu, C., Gu, Z., Li, D., Wang, G., Wang, A., Li, E.: {STSC}-{SNN}:
-  {Spatio}-{Temporal} {Synaptic} {Connection} with {Temporal} {Convolution} and
-  {Attention} for {Spiking} {Neural} {Networks} (Oct 2022),
-%  \url{http://arxiv.org/abs/2210.05241}, arXiv:2210.05241 [cs, q-bio, stat]
-
-\end{thebibliography}
-}
+  \bibitem{haimerl_internal_2019}
+  Haimerl, C., Angulo-Garcia, D., Villette, V., Reichinnek, S., Torcini, A., Cossart, R., Malvache, A.: Internal representation of hippocampal neuronal population spans a time-distance continuum. Proceedings of the National Academy of Sciences  \textbf{116}(15),  7477--7482 (Apr 2019). \doi{10/ghpbm3}
+  
+  \bibitem{hanuschkin_general_2010}
+  Hanuschkin, A., Kunkel, S., Helias, M., Morrison, A., Diesmann, M.: A {General} and {Efficient} {Method} for {Incorporating} {Precise} {Spike} {Times} in {Globally} {Time}-{Driven} {Simulations}. Frontiers in Neuroinformatics  \textbf{4}, ~113 (Oct 2010). \doi{10.3389/fninf.2010.00113}
+  
+  \bibitem{hogendoorn_predictive_2019}
+  Hogendoorn, H., Burkitt, A.N.: Predictive {Coding} with {Neural} {Transmission} {Delays}: {A} {Real}-{Time} {Temporal} {Alignment} {Hypothesis}. eneuro  \textbf{6}(2),  ENEURO.0412--18.2019 (Mar 2019). \doi{10/ggcrbj}
+  
+  \bibitem{ikegaya_synfire_2004}
+  Ikegaya, Y., Aaron, G., Cossart, R., Aronov, D., Lampl, I., Ferster, D., Yuste, R.: Synfire {Chains} and {Cortical} {Songs}: {Temporal} {Modules} of {Cortical} {Activity}. Science  \textbf{304}(5670),  559--564 (Apr 2004). \doi{10/djckcn}
+  
+  \bibitem{izhikevich_polychronization_2006}
+  Izhikevich, E.M.: Polychronization: {Computation} with spikes. Neural Computation  \textbf{18}(2),  245--282 (Feb 2006). \doi{10.1162/089976606775093882}%, \url{https://doi.org/10.1162/089976606775093882}, publisher: MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info … tex.ids= izhikevich2006polychronization
+  
+  \bibitem{khoei_flash-lag_2017}
+  Khoei, M.A., Masson, G.S., Perrinet, L.U.: The {Flash}-{Lag} {Effect} as a {Motion}-{Based} {Predictive} {Shift}. PLOS Computational Biology  \textbf{13}(1),  e1005068 (Jan 2017). \doi{10.1371/journal.pcbi.1005068}%, \url{https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005068}, tex.ids= Khoei2017a publisher: Public Library of Science
+  
+  \bibitem{kreuz_measuring_2007}
+  Kreuz, T., Haas, J.S., Morelli, A., Abarbanel, H.D.I., Politi, A.: Measuring spike train synchrony. Journal of Neuroscience Methods  \textbf{165}(1),  151--161 (Sep 2007). \doi{10.1016/j.jneumeth.2007.05.031}
+  
+  \bibitem{lagorce_hots_2017}
+  Lagorce, X., Orchard, G., Galluppi, F., Shi, B.E., Benosman, R.B.: {HOTS}: {A} {Hierarchy} of {Event}-{Based} {Time}-{Surfaces} for {Pattern} {Recognition}. IEEE Transactions on Pattern Analysis and Machine Intelligence  \textbf{39}(7),  1346--1359 (2017). \doi{10.1109/TPAMI.2016.2574707}%, \url{http://www.ncbi.nlm.nih.gov/pubmed/27411216%20http://ieeexplore.ieee.org/document/7508476/}, tex.ids= Lagorce2017a tex.bdsk-url-2: https://doi.org/10.1109/TPAMI.2016.2574707 tex.date-added: 2020-11-09 16:16:25 +0100 tex.date-modified: 2020-11-09 16:16:25 +0100 url: http://www.ncbi.nlm.nih.gov/pubmed/27411216 http://ieeexplore.ieee.org/document/7508476/
+  
+  \bibitem{levakova_review_2015}
+  Levakova, M., Tamborrino, M., Ditlevsen, S., Lansky, P.: A review of the methods for neuronal response latency estimation. Biosystems  \textbf{136},  23--34 (Oct 2015). \doi{10.1016/j.biosystems.2015.04.008}%, \url{https://doi.org/gpshjz}, this CSL Item was generated by Manubot v0.5.2 from its persistent identifier (standard\_id). standard\_id: doi:10.1016/j.biosystems.2015.04.008
+  
+  \bibitem{luczak_sequential_2007}
+  Luczak, A., Barthó, P., Marguet, S.L., Buzsáki, G., Harris, K.D.: Sequential structure of neocortical spontaneous activity in vivo. Proceedings of the National Academy of Sciences  \textbf{104}(1),  347--352 (Jan 2007). \doi{10.1073/pnas.0605643104}%, \url{https://www.pnas.org/content/104/1/347}, tex.ids= Luczak2007a publisher: National Academy of Sciences section: Biological Sciences
+  
+  \bibitem{mackevicius_unsupervised_2019}
+  Mackevicius, E.L., Bahle, A.H., Williams, A.H., Gu, S., Denisenko, N.I., Goldman, M.S., Fee, M.S.: Unsupervised discovery of temporal sequences in high-dimensional datasets, with applications to neuroscience. eLife  \textbf{8},  e38471 (Feb 2019). \doi{10.7554/eLife.38471}%, \url{https://doi.org/10.7554/eLife.38471}, publisher: eLife Sciences Publications, Ltd
+  
+  \bibitem{masquelier_competitive_2009}
+  Masquelier, T., Guyonneau, R., Thorpe, S.J.: Competitive {STDP}-{Based} {Spike} {Pattern} {Learning}. Neural Computation  \textbf{21}(5),  1259--1276 (May 2009). \doi{10/dds34f}%, \url{http://www.mitpressjournals.org/doi/10.1162/neco.2008.06-08-804}, 00203
+  
+  \bibitem{olshausen_emergence_1996}
+  Olshausen, B.A., Field, D.J.: Emergence of simple-cell receptive field properties by learning a sparse code for natural images. Nature  \textbf{381}(6583),  607--609 (1996). \doi{10/dvj4qz}%, \url{http://dx.doi.org/10.1038/381607a0 http://www.ncbi.nlm.nih.gov/htbin-post/Entrez/query?db=m&form=6&dopt=r&uid=8637596 http://www.ncbi.nlm.nih.gov/pubmed/8637596 http://www.nature.com/doifinder/10.1038/381607a0}, 00000
+  
+  \bibitem{pachitariu_robustness_2018}
+  Pachitariu, M., Stringer, C., Harris, K.D.: Robustness of {Spike} {Deconvolution} for {Neuronal} {Calcium} {Imaging}. The Journal of Neuroscience  \textbf{38}(37),  7976--7985 (2018). \doi{10.1523/jneurosci.3339-17.2018}%, \url{https://doi.org/gd9mcx}, this CSL Item was generated by Manubot v0.5.2 from its persistent identifier (standard\_id). standard\_id: doi:10.1523/jneurosci.3339-17.2018
+  
+  \bibitem{pastalkova_internally_2008}
+  Pastalkova, E., Itskov, V., Amarasingham, A., Buzsáki, G.: Internally {Generated} {Cell} {Assembly} {Sequences} in the {Rat} {Hippocampus}. Science (New York, N.Y.)  \textbf{321}(5894),  1322--1327 (Sep 2008). \doi{10.1126/science.1159775}%, \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2570043/}, tex.ids= Pastalkova2008a
+  
+  \bibitem{perrinet_emergence_2004}
+  Perrinet, L.: Emergence of filters from natural scenes in a sparse spike coding scheme. Neurocomputing  \textbf{58-60}(C),  821--826 (2004). \doi{10.1016/j.neucom.2004.01.133}%, \url{http://linkinghub.elsevier.com/retrieve/pii/S0925231204001389}, tex.ids: Perrinet03 tex.date-modified: 2019-02-22 11:55:28 +0100
+  
+  % \bibitem{perrinet_role_2010}
+  % Perrinet, L.U.: Role of homeostasis in learning sparse representations. Neural computation  \textbf{22}(7),  1812--36 (2010). \doi{10.1162/neco.2010.05-08-795}%, \url{http://www.mitpressjournals.org/doi/10.1162/neco.2010.05-08-795 http://www.ncbi.nlm.nih.gov/pubmed/20235818 http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=PMC2929690 http://arxiv.org/abs/0706.3177 http://www.incm.cnrs-mrs.fr/LaurentPerrinet/Pub}, tex.ids= Perrinet10, Perrinet10shl, Perrinet2010a tex.bdsk-url-2: https://doi.org/10.1162/neco.2010.05-08-795 tex.date-modified: 2019-09-02 15:45:35 +0200 tex.eprint: 20235818 tex.eprinttype: pmid tex.preprint: https://hal-amu.archives-ouvertes.fr/hal-00156610 tex.publisher: MIT Press tex.url: https://arxiv.org/abs/0706.3177 tex.url\_code: https://laurentperrinet.github.io/publication/perrinet-10-shl publisher: MIT Press url: https://arxiv.org/abs/0706.3177
+  
+  \bibitem{perrinet_adaptive_2019}
+  Perrinet, L.U.: An adaptive homeostatic algorithm for the unsupervised learning of visual features. Vision  \textbf{3}(3), ~47 (2019). \doi{10/ggkdks}%, \url{https://github.com/SpikeAI/HULK}, 00000 tex.date-added: 2019-09-01 16:14:10 +0300 tex.date-modified: 2019-09-19 12:00:01 +0200 tex.grants: anr-horizontal-v1,spikeai; mesocentre tex.preprint: https://laurentperrinet.github.io/publication/perrinet-19-hulk/ tex.time\_start: 2019-04-18T13:00:00 tex.url: https://spikeai.github.io/HULK/ tex.url\_code: https://github.com/SpikeAI/HULK
+  
+  \bibitem{perrinet_active_2014}
+  Perrinet, L.U., Adams, R.A., Friston, K.J.: Active inference, eye movements and oculomotor delays. Biological Cybernetics  \textbf{108}(6),  777--801 (Dec 2014). \doi{10/f6skjq}%, \url{https://doi.org/10.1007/s00422-014-0620-8}, tex.ids= Perrinet14a, Perrinet2014a, Perrinet2014b tex.date-modified: 2020-03-31 11:07:29 +0200 tex.eprint: 25128318 tex.eprinttype: pmid tex.preprint: https://hal-amu.archives-ouvertes.fr/hal-01382350 publicationTitle: Biological cybernetics publisher: Springer Berlin Heidelberg url: http://link.springer.com/article/10.1007\%2Fs00422-014-0620-8
+  
+  \bibitem{perrinet_edge_2015}
+  Perrinet, L.U., Bednar, J.A.: Edge co-occurrences can account for rapid categorization of natural versus animal images. Scientific reports  \textbf{5},  11400 (2015). \doi{10.1038/srep11400}%, tex.ids= Perrinet2015, Perrinet2015d, PerrinetBednar15 tex.bdsk-url-2: https://doi.org/10.1038/srep11400 tex.date-added: 2020-03-27 10:11:37 +0100 tex.date-modified: 2020-03-27 10:11:44 +0100 tex.grants: anr-bala-v1 tex.preprint: https://hal-amu.archives-ouvertes.fr/hal-01202447 tex.url\_code: https://github.com/laurentperrinet/PerrinetBednar15 publisher: Nature Publishing Group url: http://dx.doi.org/10.1038/srep11400
+  
+  \bibitem{riehle_spike_1997}
+  Riehle, A., Grun, S., Diesmann, M., Aertsen, A.: Spike synchronization and rate modulation differentially involved in motor cortical function. Science (New York, N.Y.)  \textbf{278}(5345),  1950--1953 (1997). \doi{10.1126/science.278.5345.1950}%, tex.ids= Riehle1997a publisher: American Association for the Advancement of Science
+  
+  \bibitem{roelfsema_early_2016}
+  Roelfsema, P.R., de~Lange, F.P.: Early visual cortex as a multiscale cognitive blackboard. Annual review of vision science  \textbf{2},  131--151 (2016). \doi{10.1146/annurev-vision-111815-114443}%, publisher: Annual Reviews
+  
+  \bibitem{van_rossum_novel_2001}
+  van Rossum, M.C.: A novel spike distance. Neural Computation  \textbf{13}(4),  751--763 (Apr 2001). \doi{10.1162/089976601300014321}
+  
+  \bibitem{stella_comparing_2022}
+  Stella, A., Bouss, P., Palm, G., Grün, S.: Comparing {Surrogates} to {Evaluate} {Precisely} {Timed} {Higher}-{Order} {Spike} {Correlations}. eneuro  \textbf{9}(3),  ENEURO.0505--21.2022 (2022). \doi{10.1523/eneuro.0505-21.2022}%, \url{https://doi.org/gqjvht}, this CSL Item was generated by Manubot v0.5.2 from its persistent identifier (standard\_id). standard\_id: doi:10.1523/eneuro.0505-21.2022
+  
+  \bibitem{victor_nature_1996}
+  Victor, J.D., Purpura, K.P.: Nature and precision of temporal coding in visual cortex: a metric-space analysis. Journal of Neurophysiology  \textbf{76}(2),  1310--1326 (Aug 1996). \doi{10.1152/jn.1996.76.2.1310}%, \url{https://www.physiology.org/doi/10.1152/jn.1996.76.2.1310}
+  
+  \bibitem{villette_internally_2015}
+  Villette, V., Malvache, A., Tressard, T., Dupuy, N., Cossart, R.: Internally {Recurring} {Hippocampal} {Sequences} as a {Population} {Template} of {Spatiotemporal} {Information}. Neuron  \textbf{88}(2),  357--366 (Oct 2015). \doi{10/f7whnn}%, \url{https://www.sciencedirect.com/science/article/pii/S0896627315008417}, 00085
+  
+  \bibitem{williams_point_2020}
+  Williams, A.H., Degleris, A., Wang, Y., Linderman, S.W.: Point process models for sequence detection in high-dimensional neural spike trains. Tech. rep. (Oct 2020)%, \url{http://arxiv.org/abs/2010.04875}, 00003 tex.ids= Williams2020a arXiv: 2010.04875 rights: http://creativecommons.org/licenses/by/4.0/
+  
+  \bibitem{yu_stsc-snn_2022}
+  Yu, C., Gu, Z., Li, D., Wang, G., Wang, A., Li, E.: {STSC}-{SNN}: {Spatio}-{Temporal} {Synaptic} {Connection} with {Temporal} {Convolution} and {Attention} for {Spiking} {Neural} {Networks} (Oct 2022)%, \url{http://arxiv.org/abs/2210.05241}, arXiv:2210.05241 [cs, q-bio, stat]
+  
+  \end{thebibliography}
+  
 \end{document}
  
