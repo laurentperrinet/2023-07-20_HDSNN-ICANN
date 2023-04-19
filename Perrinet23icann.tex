@@ -242,7 +242,7 @@ From the perspective of simulating such event-based computations on standard CPU
   \includegraphics[width=.50\linewidth]{figures/THC_toy-c.pdf}
   \includegraphics[width=.50\linewidth]{figures/THC_toy-a.pdf} 
 
-\caption{Generating raster plots and inferring spiking motifs. \textbf{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ neurons. \textbf{(b)}~We show these motifs, each identified at the top by a different color. Each neuron and $71$ different possible delays is assigned the evidence of activation (red) or deactivation (blue). \textbf{(c)}~The activation in time of the different motifs is then used to define a generative model for drawing a raster plot on the multi-unit address space. \textbf{(d)}~By inverting this model, an inference model can be defined for their efficient detection. The original raster plot can be annotated with each identified spiking motif.
+\caption{Generating raster plots and inferring spiking motifs. \textbf{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ neurons. \textbf{(b)}~We show these motifs, each identified at the top by a different color. The evidence of activation (red) or deactivation (blue) is assigned to each presynaptic neuron and $31$ different possible delays. \textbf{(c)}~The activation in time of the different motifs (denoted by stars) is drawn at random and then used to generate a raster plot on the multi-unit address space (see panel a). By inverting this model, an inference model can be defined for their efficient detection, outputting an evidence value (continuous line) from which the identity and timing of SMs can be inferred (vertical bars). \textbf{(d)}~The original raster plot can be annotated with each identified spiking motif.
 }
 \label{fig:THC}
 \end{figure}
@@ -326,7 +326,7 @@ The underlying metric is the binary cross-entropy, as used in the logistic regre
 %
 \section{Results}
 %
-To quantify the efficiency of this operation, we generated $M=144$ synthetic spiking motifs as random independent kernels over $N=128$ presynaptic inputs and $D=71$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and an average of $1.0$ spikes per neuron. This allowed us to generate raster plots, which we use to infer $\hat{B}$. We compute accuracy as the rate of true positive detections (both for inferring the address and its exact timing) and observe on average $\approx 98\%$ correct detections.
+To quantify the efficiency of this operation, we generated $M=144$ synthetic spiking motifs as random independent kernels over $N=128$ presynaptic inputs and $D=31$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and an average of $1.0$ spikes per neuron. This allowed us to generate raster plots, which we use to infer $\hat{B}$. We compute accuracy as the rate of true positive detections (both for inferring the address and its exact timing) and observe on average $\approx 98\%$ correct detections.
 
 We extended this result by showing how accuracy evolves as a function of the number of simultaneous spiking motifs, holding the frequency of occurrence constant. We show in \fig{model_results}~(left) that the accuracy of finding the right spiking motif is still above $80\%$ accuracy with more than $1364$ overlapping spiking motifs. This observations illustrates quantitatively the capcity  of the HD-SNN in representing a high number of simulatneous patterns. Furthermore, we show in \fig{model_results}~(middle) that (with $M=144$ spiking motifs fixed) the accuracy increases significantly with increasing temporal depth $D$ of the spiking motif kernel, quantitatively demonstrating the computational advantage of using heterogeneous delays. These results were obtained under the assumption that we know the $\kernel$. However, this is generally not the case, for example, when considering the raster plot of a population of neurons.
 
@@ -337,12 +337,12 @@ Finally, we evaluated the performance of the supervised learning scheme in infer
 %---------------------------
 \begin{figure}%[t!]
   \centering
-  \includegraphics[width=0.320\linewidth]{figures/THC_N_PGs.pdf}
+  \includegraphics[width=0.335\linewidth]{figures/THC_N_SMs.pdf}
 %  \includegraphics[width=0.320\linewidth]{figures/THC_N_pre.pdf}
-  \includegraphics[width=0.320\linewidth]{figures/THC_N_PG_time.pdf} 
-  \includegraphics[width=0.320\linewidth]{figures/THC_xcorr-supervised.pdf}
-    \caption{Detecting event-based motifs using spiking neurons with heterogeneous delays. 
-Accuracy of detection as a function of  {\bf (Left)}~the number $M$ of kernels, 
+  \includegraphics[width=0.330\linewidth]{figures/THC_N_SM_time.pdf} 
+  \includegraphics[width=0.315\linewidth]{figures/THC_xcorr-supervised.pdf}
+    \caption{Detecting spiking motifs using spiking neurons with heterogeneous delays. 
+Accuracy of detection for the classical correlation (red) and the HD-SNN method (blue) as a function of  {\bf (Left)}~the number $M$ of kernels, 
     %{\bf (Middle)}~the number of presynaptic neurons, 
     {\bf (Middle)}~the temporal depth $D$ of kernels among $M=144$ kernels.
     {\bf (Right)} Correlation matrix of true vs learned kernels.
