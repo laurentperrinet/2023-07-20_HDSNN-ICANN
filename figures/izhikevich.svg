@@ -2539,90 +2539,6 @@
        </g>
       </g><g
    class="com.sun.star.drawing.ConnectorShape"
-   id="g476"
-   clip-path="url(#clipPath4005)"
-   transform="translate(-2751.1186,-3769.8441)"
-   style="fill:#aa4400;fill-opacity:1">
-       <g
-   id="id24"
-   style="fill:#aa4400;fill-opacity:1">
-        <rect
-   class="BoundingBox"
-   stroke="none"
-   fill="none"
-   x="11512"
-   y="6256"
-   width="107"
-   height="975"
-   id="rect471"
-   style="fill:#aa4400;fill-opacity:1" />
-        <path
-   fill="none"
-   stroke="#203864"
-   stroke-width="106"
-   stroke-linejoin="miter"
-   d="m 11565,6256 v 974"
-   id="path473"
-   style="fill:#aa4400;fill-opacity:1" />
-       </g>
-      </g><g
-   class="com.sun.star.drawing.ConnectorShape"
-   id="g483"
-   clip-path="url(#clipPath3997)"
-   transform="translate(-2751.1186,-3832.0836)"
-   style="fill:#aa4400;fill-opacity:1">
-       <g
-   id="id25"
-   style="fill:#aa4400;fill-opacity:1">
-        <rect
-   class="BoundingBox"
-   stroke="none"
-   fill="none"
-   x="11512"
-   y="7375"
-   width="107"
-   height="974"
-   id="rect478"
-   style="fill:#aa4400;fill-opacity:1" />
-        <path
-   fill="none"
-   stroke="#203864"
-   stroke-width="106"
-   stroke-linejoin="miter"
-   d="m 11565,7375 v 973"
-   id="path480"
-   style="fill:#aa4400;fill-opacity:1" />
-       </g>
-      </g><g
-   class="com.sun.star.drawing.ConnectorShape"
-   id="g490"
-   clip-path="url(#clipPath3989)"
-   transform="translate(-2751.1186,-3897.7876)"
-   style="fill:#803300;fill-opacity:1">
-       <g
-   id="id26"
-   style="fill:#803300;fill-opacity:1">
-        <rect
-   class="BoundingBox"
-   stroke="none"
-   fill="none"
-   x="11512"
-   y="8502"
-   width="107"
-   height="975"
-   id="rect485"
-   style="fill:#803300;fill-opacity:1" />
-        <path
-   fill="none"
-   stroke="#203864"
-   stroke-width="106"
-   stroke-linejoin="miter"
-   d="m 11565,8502 v 974"
-   id="path487"
-   style="fill:#803300;fill-opacity:1" />
-       </g>
-      </g><g
-   class="com.sun.star.drawing.ConnectorShape"
    id="g562"
    clip-path="url(#clipPath3941)"
    transform="translate(-2735.6186,-3250)">
@@ -2979,14 +2895,100 @@
    id="path673" />
        </g>
       </g><g
-   class="com.sun.star.drawing.ConnectorShape"
-   id="g683"
-   clip-path="url(#clipPath3837)"
-   transform="translate(-2751.1186,-3779.167)"
-   style="fill:#aa4400;fill-opacity:1">
+   id="g12728"
+   style="fill:#ff6600;stroke:#d45500"><g
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g476"
+     clip-path="url(#clipPath4005)"
+     transform="translate(-2751.1186,-3769.8441)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+       <g
+   id="id24"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+        <rect
+   class="BoundingBox"
+   stroke="none"
+   fill="none"
+   x="11512"
+   y="6256"
+   width="107"
+   height="975"
+   id="rect471"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+        <path
+   fill="none"
+   stroke="#203864"
+   stroke-width="106"
+   stroke-linejoin="miter"
+   d="m 11565,6256 v 974"
+   id="path473"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+       </g>
+      </g><g
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g483"
+     clip-path="url(#clipPath3997)"
+     transform="translate(-2751.1186,-3832.0836)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+       <g
+   id="id25"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+        <rect
+   class="BoundingBox"
+   stroke="none"
+   fill="none"
+   x="11512"
+   y="7375"
+   width="107"
+   height="974"
+   id="rect478"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+        <path
+   fill="none"
+   stroke="#203864"
+   stroke-width="106"
+   stroke-linejoin="miter"
+   d="m 11565,7375 v 973"
+   id="path480"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+       </g>
+      </g><g
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g490"
+     clip-path="url(#clipPath3989)"
+     transform="translate(-2751.1186,-3897.7876)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+       <g
+   id="id26"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
+        <rect
+   class="BoundingBox"
+   stroke="none"
+   fill="none"
+   x="11512"
+   y="8502"
+   width="107"
+   height="975"
+   id="rect485"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+        <path
+   fill="none"
+   stroke="#203864"
+   stroke-width="106"
+   stroke-linejoin="miter"
+   d="m 11565,8502 v 974"
+   id="path487"
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
+       </g>
+      </g><g
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g683"
+     clip-path="url(#clipPath3837)"
+     transform="translate(-2751.1186,-3779.167)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
        <g
    id="id45"
-   style="fill:#aa4400;fill-opacity:1">
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
         <rect
    class="BoundingBox"
    stroke="none"
@@ -2996,7 +2998,7 @@
    width="107"
    height="975"
    id="rect678"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
         <path
    fill="none"
    stroke="#203864"
@@ -3004,17 +3006,17 @@
    stroke-linejoin="miter"
    d="m 26592,6256 v 974"
    id="path680"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
        </g>
       </g><g
-   class="com.sun.star.drawing.ConnectorShape"
-   id="g690"
-   clip-path="url(#clipPath3829)"
-   transform="translate(-2698.2019,-3791.9543)"
-   style="fill:#aa4400;fill-opacity:1">
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g690"
+     clip-path="url(#clipPath3829)"
+     transform="translate(-2698.2019,-3791.9543)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
        <g
    id="id46"
-   style="fill:#aa4400;fill-opacity:1">
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
         <rect
    class="BoundingBox"
    stroke="none"
@@ -3024,7 +3026,7 @@
    width="107"
    height="974"
    id="rect685"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
         <path
    fill="none"
    stroke="#203864"
@@ -3032,17 +3034,17 @@
    stroke-linejoin="miter"
    d="m 24052,7375 v 973"
    id="path687"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
        </g>
       </g><g
-   class="com.sun.star.drawing.ConnectorShape"
-   id="g697"
-   clip-path="url(#clipPath3821)"
-   transform="translate(-2380.702,-3885.0004)"
-   style="fill:#aa4400;fill-opacity:1">
+     class="com.sun.star.drawing.ConnectorShape"
+     id="g697"
+     clip-path="url(#clipPath3821)"
+     transform="translate(-2380.702,-3885.0004)"
+     style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
        <g
    id="id47"
-   style="fill:#aa4400;fill-opacity:1">
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500">
         <rect
    class="BoundingBox"
    stroke="none"
@@ -3052,7 +3054,7 @@
    width="107"
    height="975"
    id="rect692"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
         <path
    fill="none"
    stroke="#203864"
@@ -3060,9 +3062,9 @@
    stroke-linejoin="miter"
    d="m 20999,8502 v 974"
    id="path694"
-   style="fill:#aa4400;fill-opacity:1" />
+   style="fill:#ff6600;fill-opacity:1;stroke:#d45500" />
        </g>
-      </g><g
+      </g></g><g
    class="com.sun.star.drawing.ConnectorShape"
    id="g756"
    clip-path="url(#clipPath3781)"
