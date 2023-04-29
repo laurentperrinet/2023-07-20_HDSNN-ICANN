@@ -303,13 +303,8 @@ Assuming that we know the spiking motifs (as defined by the kernel $\kernel$), t
 \end{equation*}
 This also takes the form of a temporal convolution. This assumption holds as long as the kernels are uncorrelated, a condition which is met here numerically by choosing a relatively sparse set of synapses (approximately $1\%$ of active synapses). Finally, we compute $\hat{B}$ by selecting the most likely items, allowing to identify the spiking motifs in the input raster plot (see Figure~\ref{fig:THC}d). 
 
-<<<<<<< HEAD
-One may naturally extend this algorithm when the spiking motifs (that is, the weights) are not known, but that we know the timing and identity of the spiking motifs. Indeed, the equation above is differentiable. 
-The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider kernels with similar decreasing exponential time profile, one can prove that this detection model is similar to the method of~\cite{berens_fast_2012}. In our specific case, the difference is that the regression is performed here in both dendritic and delay space by extending the summation using a temporal convolution operator. 
-=======
 One may naturally extend this algorithm when the spiking motifs (that is, the weights) are not known, but that we know the timing and identity of the spiking motifs. Indeed, the equation above is differentiable. Indeed, the activation function of our spiking neural is a sigmoid function implementing a form of  Multinomial Logistic Regression (MLR)~\cite{grimaldi_learning_2022}.  
 The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider kernels with similar decreasing exponential time profile, one can prove that this detection model is similar to the method of~\cite{berens_fast_2012}. In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. 
->>>>>>> ac3422f429cf3ba06410af87b3e4d2ee0b7662d5
 
 %\subsection{Implementation using spiking neurons with heterogeneous delays}
 %
