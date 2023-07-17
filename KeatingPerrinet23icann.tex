@@ -389,8 +389,9 @@ We expect that this would be particularly useful for exploring neurobiological d
 Inspired by the k-means algorithm, it is possible to develop a self-supervised learning algorithm for the automatic detection of spiking motifs. For this, we can initialize $\kernel$ at random and define an auto-encoder scheme that infers the sources $\hat{B}$ for each input $A$ and then resynthesizes the corresponding raster plot. A natural metric is again binary cross-entropy, as used in the logistic regression model. Since the model is differentiable, we can optimize $\kernel$ using gradient descent. We can add a homeostatic regularization on the average firing rate of $B$ to ensure that each motif was \emph{a priori} equally activated~\cite{perrinet_adaptive_2019}. Our preliminary results show that it is possible to retrieve spiking motifs embedded in synthetic data. However, further analysis is needed to improve the convergence of the algorithm and to apply such algorithms to real neurobiological data. In particular, it seems promising to use a sparseness constraint in the inference mechanism to remove spurious correlations in the inference.
 %
 \bibliographystyle{splncs04}
-% % \bibliography{ref}
-\bibliography{references}
+%
+\bibliography{polychronies}
+%
 % \begin{thebibliography}{10}
 %   \providecommand{\url}[1]{\texttt{#1}}
 %   \providecommand{\urlprefix}{URL }
