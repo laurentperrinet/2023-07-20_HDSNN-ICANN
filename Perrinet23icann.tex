@@ -194,12 +194,6 @@ The complexity and diversity of these spike train distance and timing comparison
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{A novel hypothesis: spiking motifs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-In recent studies, the importance of spike timing has been emphasized, especially in the barn owl auditory system, where precise spike timing in response to the sound of a mouse allows the brain to determine the prey's position~\cite{goodman_spike-timing-based_2010}. This discovery aligns with a growing body of literature suggesting that the brain's dynamics often exhibit stereotyped sequences known as \emph{spiking motifs}~\cite{grimaldi_precise_2023}. The concept of spiking motifs is a generalization of the patterns observed in the \textit{polychronization} model developed by Izhikevich~\cite{izhikevich_polychronization_2006}. This theoretical model comprises a random recurrent network of spiking neurons with biologically realistic synaptic delays and evolving weights governed by Spike-Time Dependent Plasticity (STDP) learning rule.
-
-The interplay between the synaptic delays and STDP leads to the spontaneous organization of neurons into groups called "polychronous groups." Despite neurons in one of these groups firing at different times, the heterogeneous delays enable their spikes to converge synchronously on the postsynaptic neuron. This convergence results in the summation of excitatory postsynaptic potentials, leading to the firing of the postsynaptic neuron (see Figure~\ref{fig:izhikevich}). The polychronization model allows spiking neurons to self-organize into groups and generate reproducible time-locked spiking motifs. The STDP rule increases synaptic weights selectively for neurons involved in these polychronous groups, thereby consolidating the formation of such groups.
-
-While the polychronization model provides valuable insights into understanding spiking neural networks and their potential role in generating spatio-temporal spiking motifs, it has a limitation. The model's heterogeneous delays are fixed and cannot evolve over time, which may limit its applicability in certain scenarios. However, the underlying mechanism offers valuable implications for studying neural activity motifs and their significance in the brain. To effectively detect spiking motifs, we propose a novel metric inspired by this model.
 %----------------------------%
 %
 \begin{figure}[t]
@@ -210,6 +204,12 @@ While the polychronization model provides valuable insights into understanding s
   \label{fig:izhikevich}
 \end{figure}
 %----------------------------%
+%
+In recent studies, the importance of spike timing has been emphasized, especially in the barn owl auditory system, where precise spike timing in response to the sound of a mouse allows the brain to determine the prey's position~\cite{goodman_spike-timing-based_2010}. This discovery aligns with a growing body of literature suggesting that the brain's dynamics often exhibit stereotyped sequences known as \emph{spiking motifs}~\cite{grimaldi_precise_2023}. The concept of spiking motifs is a generalization of the patterns observed in the \textit{polychronization} model developed by Izhikevich~\cite{izhikevich_polychronization_2006}. This theoretical model comprises a random recurrent network of spiking neurons with biologically realistic synaptic delays and evolving weights governed by Spike-Time Dependent Plasticity (STDP) learning rule.
+
+The interplay between the synaptic delays and STDP leads to the spontaneous organization of neurons into groups called "polychronous groups." Despite neurons in one of these groups firing at different times, the heterogeneous delays enable their spikes to converge synchronously on the postsynaptic neuron. This convergence results in the summation of excitatory postsynaptic potentials, leading to the firing of the postsynaptic neuron (see Figure~\ref{fig:izhikevich}). The polychronization model allows spiking neurons to self-organize into groups and generate reproducible time-locked spiking motifs. The STDP rule increases synaptic weights selectively for neurons involved in these polychronous groups, thereby consolidating the formation of such groups.
+
+While the polychronization model provides valuable insights into understanding spiking neural networks and their potential role in generating spatio-temporal spiking motifs, it has a limitation. The model's heterogeneous delays are fixed and cannot evolve over time, which may limit its applicability in certain scenarios. However, the underlying mechanism offers valuable implications for studying neural activity motifs and their significance in the brain. To effectively detect spiking motifs, we propose a novel metric inspired by this model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Heterogeneous Delays Spiking Neural Network (HD-SNN)}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
