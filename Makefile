@@ -24,6 +24,9 @@ LATEXMK = latexmk -bibtex -pdf
 # response_to_reviewers.pdf: response_to_reviewers.tex $(SRC).tex $(SRC).bib
 # 	$(LATEXMK) response_to_reviewers.tex
 
+zip:
+	zip $(SRC).zip 2023-07-20_ICANN2023_License2publish_signed.pdf llncs.cls Perrinet23icann.bbl Perrinet23icann.pdf Perrinet23icann.tex polychronies.bib splncs04.bst
+
 touch:
 	touch *.tex
 
