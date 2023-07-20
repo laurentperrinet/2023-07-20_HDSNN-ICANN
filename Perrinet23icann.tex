@@ -143,8 +143,8 @@
 \title{Accurate detection of spiking motifs in multi-unit raster plots}
 
 \author{
-Miles Keating\orcidID{0009-0000-6871-0373}
-\and
+% Miles Keating\orcidID{0009-0000-6871-0373}
+% \and
 Laurent U Perrinet\orcidID{0000-0002-9536-010X}
 \thanks{Funded by A*MIDEX grant AMX-21-RID-025 ``\href{https://laurentperrinet.github.io/grant/polychronies/}{Polychronies}''.}}
 %
@@ -159,7 +159,9 @@ Laurent U Perrinet\orcidID{0000-0002-9536-010X}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract} 
-Recently, there has been growing interest in the hypothesis that within neural activity, information may be conveyed by precise spiking motifs. As a result, there have been several recent proposals for algorithms to detect such motifs in the Spiking Unit Activity (SUA) of populations of neurons. In this study, we introduce a detection model as an inversion of a generative model of raster plot synthesis. From this model, an optimal detection procedure is derived. This takes the form of a logistic regression coupled with a temporal convolution. Since this model is differentiable, we derive a supervised learning method in the form of gradient descent on the loss function of this auto-encoder model. We evaluate the ability of this model to detect spiking motifs in synthetic data. This learning method is able to recover the synthetically generated spiking motifs, and we plan to extend this method to neurobiological data as well.
+Recently, there has been a growing interest in exploring the hypothesis that neural activity conveys information through precise spiking motifs. To investigate this phenomenon, various algorithms have been proposed to detect such motifs in Spiking Unit Activity (SUA) recorded from populations of neurons.
+In this study, we present a novel detection model that is based on the inversion of a generative model of raster plot synthesis. By leveraging this generative model, we derive an optimal detection procedure, which takes the form of a logistic regression combined with a temporal convolution. One key advantage of this model is its differentiability, allowing us to formulate a supervised learning approach using a gradient descent on the binary cross entropy loss. 
+At first, we perform numerical evaluations to assess the model's ability to detect spiking motifs in synthetic data. This analysis highlights the advantages of using spiking motifs over traditional firing-rate-based population codes. Then, we successfully demonstrate that our learning method can recover synthetically generated spiking motifs, indicating its potential for further applications. In the future, we aim to extend this method to real neurobiological data, where the ground truth is unknown, to explore and detect spiking motifs in a more natural and biologically relevant context.
 %
 \keywords{Neurobiology \and  spike trains \and population coding  \and spiking motifs \and heterogeneous delays \and pattern detection.}
 \end{abstract}
@@ -172,8 +174,7 @@ Recently, there has been growing interest in the hypothesis that within neural a
 \subsection{The age of large-scale neurobiological event-based data}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
-Over the past decade, tremendous technological advances across multiple disciplines have dramatically expanded the frontiers of experimentally accessible neuroscience. % Bridging different spatial and temporal scales, combining \textit{in vivo} two-photon imaging, large population recording array technologies, optogenetic circuit control tools, transgenic manipulations, as well as large volume circuit reconstructions, 
-These tools are now being used to probe the function, structure, and dynamics of neural networks at unprecedented levels of detail and precision. The staggering complexity of biological reality revealed by these technologies highlights the importance of neurobiological knowledge to provide a conceptual bridge between abstract principles of brain function and their biological implementation in neural circuits. As a consequence, there is a growing need to scale such analysis methods to larger amounts of data. 
+Over the past decade, tremendous technological advances across multiple disciplines have dramatically expanded the frontiers of experimentally accessible neuroscience. These methods bridge different spatial and temporal scales, combining \textit{in vivo} two-photon imaging, large population recording array technologies, optogenetic circuit control tools, transgenic manipulations, as well as large volume circuit reconstructions. These tools are now being used to probe the function, structure, and dynamics of neural networks at unprecedented levels of detail and precision. The staggering complexity of biological reality revealed by these technologies highlights the importance of neurobiological knowledge to provide a conceptual bridge between abstract principles of brain function and their biological implementation in neural circuits. As a consequence, there is a growing need to scale such analysis methods to larger amounts of data. 
  
 There are several approaches that try to solve this problem. One algorithm capable of accomplishing such a daunting task is the Rastermap algorithm~\cite{pachitariu_robustness_2018}. Basically, it rearranges neurons in the raster map based on the similarity of their activity and applies a deconvolution strategy based on a linear model. However, this method has mainly been tested on calcium imaging data, which is known to add some imprecision to the timing of the spiking activity observed in Spiking Unit Activity (SUA) recordings. 
 % In~\cite{russo_cell_2017}, the authors developed novel machine learning tools and statistical tests for unsupervised spatiotemporal pattern detection in non-stationary environments, which were applied to simultaneous electrophysiological recordings from tens to hundreds of neurons to decode cognitive processes from neural activity. Overall, this provides evidence for the importance of such machine-learning based tools to provide breakthroughs in neuroscience.
