@@ -31,7 +31,7 @@ touch:
 	touch *.tex
 
 blog:
-	cp $(SRC).pdf ~/metagit/blog/hugo_academic/content/publication/$(SLUG)/$(SLUG).pdf
+	cp $(SRC).pdf ~/quantic/blog/hugo_academic/content/publication/$(SLUG)/$(SLUG).pdf
 
 git:
 	git pull

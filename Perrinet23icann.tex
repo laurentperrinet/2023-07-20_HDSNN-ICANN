@@ -297,7 +297,7 @@ This also takes the form of a temporal convolution. This assumption holds as lon
 
 One may naturally extend this algorithm when the spiking motifs (that is, the weights) are not known, but that we know the timing and identity of the spiking motifs. Indeed, the equation above is differentiable. Indeed, the activation function of our spiking neural is a sigmoid function implementing a form of  Multinomial Logistic Regression (MLR)~\cite{grimaldi_learning_2023}.  
 The underlying metric is the binary cross-entropy, as used in the logistic regression model. In particular, if we consider kernels with similar decreasing exponential time profile, one can prove that this detection model is similar to the method of Berens {\it et al.}~\cite{berens_fast_2012}. In our specific case, the difference is that the regression is performed in both dendritic and delay space by extending the summation using a temporal convolution operator. 
-%
+% 
 \section{Results}
 %
 To quantify the efficiency of this operation, we generated raster plots parameterized by $N=128$ presynaptic inputs and $M=144$ synthetic spiking motifs as random independent kernels and with $D=31$ possible delays. We drew random independent instances of $B$ with a length of $T=1000$ time steps and an average of $1.0$ spikes per neuron. This allowed us to generate a large number of synthetic raster plots, which we use to infer $\hat{B}$. We compute accuracy as the rate of true positive detections (both for inferring the address and its exact timing) and observe on average $\approx 98.8\%$ correct detections.
@@ -310,8 +310,8 @@ Finally, we evaluated the performance of the supervised learning scheme in infer
 \begin{figure}%[t!]
   \centering
   \includegraphics[width=0.335\linewidth]{figures/THC_N_SMs.pdf}
-%  \includegraphics[width=0.320\linewidth]{figures/THC_N_pre.pdf}
-  \includegraphics[width=0.330\linewidth]{figures/THC_N_SM_time.pdf} 
+  \includegraphics[width=0.320\linewidth]{figures/THC_N_pre.pdf}
+  % \includegraphics[width=0.330\linewidth]{figures/THC_N_SM_time.pdf} 
   \includegraphics[width=0.315\linewidth]{figures/THC_xcorr-supervised.pdf}
     \caption{Detecting spiking motifs using spiking neurons with heterogeneous delays. 
 Accuracy of detection for the classical correlation (red) and the HD-SNN method (blue) as a function of  {\bf (Left)}~the number $M$ of kernels, 
