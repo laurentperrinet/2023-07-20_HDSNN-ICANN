@@ -273,7 +273,7 @@ From the perspective of simulating such event-based computations on standard CPU
   \includegraphics[width=.50\linewidth]{figures/THC_toy-c.pdf}
   \includegraphics[width=.50\linewidth]{figures/THC_toy-a.pdf} 
 % \end{center}
-\caption{From generating raster plots to inferring spiking motifs. \textbf{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ presynaptic neurons. \textbf{(b)}~We show these motifs, each identified at the top by a different color. The evidence of activation (red) or deactivation (blue) is assigned to each presynaptic neuron and $31$ different possible delays. \textbf{(c)}~The activation in time of the different motifs (denoted by stars) is drawn at random and then used to generate a raster plot on the multi-unit address space (see panel a). By inverting this model, an inference model can be defined for their efficient detection, outputting an evidence value (continuous line) from which the identity and timing of SMs can be inferred (vertical bars). \textbf{(d)}~The original raster plot can be annotated with each identified spiking motif (as represented by the respective color assigned to SMs).
+\caption{\textbf{From generating raster plots to inferring spiking motifs}. \textit{(a)}~As an illustration for the generative model, we draw a multiunit raster plot synthesized from $4$ different spiking motifs and for $10$ presynaptic neurons. \textit{(b)}~We show these motifs, each identified at the top by a different color. The evidence of activation (red) or deactivation (blue) is assigned to each presynaptic neuron and $31$ different possible delays. \textit{(c)}~The activation in time of the different motifs (denoted by stars) is drawn at random and then used to generate a raster plot on the multi-unit address space (see panel a). By inverting this model, an inference model can be defined for their efficient detection, outputting an evidence value (continuous line) from which the identity and timing of SMs can be inferred (vertical bars). \textit{(d)}~The original raster plot can be annotated with each identified spiking motif (as represented by the respective color assigned to SMs).
 }
 \label{fig:THC}
 \end{figure}
@@ -318,11 +318,11 @@ Finally, we evaluated the performance of the supervised learning scheme in infer
   \includegraphics[width=0.320\linewidth]{figures/THC_N_pre.pdf}
   % \includegraphics[width=0.330\linewidth]{figures/THC_N_SM_time.pdf} 
   \includegraphics[width=0.315\linewidth]{figures/THC_xcorr-supervised.pdf}
-    \caption{Detecting spiking motifs using spiking neurons with heterogeneous delays. 
-Accuracy of detection for the classical correlation (red) and the HD-SNN method (blue) as a function of  {\bf (Left)}~the number $M$ of kernels, 
-    {\bf (Middle)}~the number of presynaptic neurons, 
+    \caption{{\bf Detecting spiking motifs using spiking neurons with heterogeneous delays. 
+Accuracy of detection for the classical correlation (red) and the HD-SNN method (blue) as a function of  {\it (Left)}~the number $M$ of kernels, 
+    {\it (Middle)}~the number of presynaptic neurons, 
     % {\bf (Middle)}~the temporal depth $D$ of kernels among $M=144$ kernels.
-    {\bf (Right)} Correlation matrix of true vs learned kernels.
+    {\it (Right)} Correlation matrix of true vs learned kernels.
     }
   \label{fig:model_results}
 \end{figure}
